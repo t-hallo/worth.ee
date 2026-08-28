@@ -41,10 +41,10 @@ const { title = "Worth" } = Astro.props;
         *{margin:0;padding:0;box-sizing:border-box}
         html{scroll-behavior:smooth}
         body{font-family:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;background-color:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;line-height:1.7;display:flex;flex-direction:column;min-height:100vh;padding:0 24px 48px;transition:background-color .2s ease,color .2s ease}
-        @keyframes fadeIn{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
-        @keyframes fadeOut{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-8px)}}
-        .page-enter{animation:fadeIn .2s cubic-bezier(.4,0,.2,1) forwards}
-        .page-exit{animation:fadeOut .15s cubic-bezier(.4,0,1,1) forwards}
+        @keyframes fadeIn{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
+        @keyframes fadeOut{0%{opacity:1}100%{opacity:0}}
+        .page-enter{animation:fadeIn .12s ease-out forwards}
+        .page-exit{animation:fadeOut .1s ease-in forwards}
         .container{max-width:620px;width:100%;margin:0 auto;flex:1}
         header{margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;padding:16px 0;background:rgba(255,255,255,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background .2s ease}
         .dark header{background:rgba(10,10,10,.75)}
@@ -135,7 +135,7 @@ const { title = "Worth" } = Astro.props;
                     if (container) {
                         container.classList.remove('page-enter');
                         container.classList.add('page-exit');
-                        setTimeout(() => { window.location.href = href; }, 150);
+                        setTimeout(() => { window.location.href = href; }, 100);
                     } else {
                         window.location.href = href;
                     }
