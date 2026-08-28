@@ -41,10 +41,10 @@ const { title = "Worth" } = Astro.props;
         *{margin:0;padding:0;box-sizing:border-box}
         html{scroll-behavior:smooth}
         body{font-family:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;background-color:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;line-height:1.7;display:flex;flex-direction:column;min-height:100vh;padding:0 24px 48px;transition:background-color .2s ease,color .2s ease}
-        @keyframes meltIn{0%{opacity:0;filter:blur(8px) brightness(1.2);transform:scale(1.02)}50%{opacity:.8;filter:blur(2px)}100%{opacity:1;filter:blur(0) brightness(1);transform:scale(1)}}
-        @keyframes meltOut{0%{opacity:1;filter:blur(0)}100%{opacity:0;filter:blur(12px) brightness(1.3);transform:scale(.98)}}
-        .page-enter{animation:meltIn .45s cubic-bezier(.4,0,.2,1) forwards}
-        .page-exit{animation:meltOut .3s cubic-bezier(.4,0,1,1) forwards}
+        @keyframes meltIn{0%{opacity:0;filter:blur(6px) brightness(1.1);transform:scale(1.01)}100%{opacity:1;filter:blur(0) brightness(1);transform:scale(1)}}
+        @keyframes meltOut{0%{opacity:1;filter:blur(0)}100%{opacity:0;filter:blur(8px) brightness(1.2);transform:scale(.99)}}
+        .page-enter{animation:meltIn .25s cubic-bezier(.4,0,.2,1) forwards}
+        .page-exit{animation:meltOut .18s cubic-bezier(.4,0,1,1) forwards}
         .container{max-width:620px;width:100%;margin:0 auto;flex:1}
         header{margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;padding:16px 0;background:rgba(255,255,255,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background .2s ease}
         .dark header{background:rgba(10,10,10,.75)}
@@ -135,7 +135,7 @@ const { title = "Worth" } = Astro.props;
                     if (container) {
                         container.classList.remove('page-enter');
                         container.classList.add('page-exit');
-                        setTimeout(() => { window.location.href = href; }, 300);
+                        setTimeout(() => { window.location.href = href; }, 180);
                     } else {
                         window.location.href = href;
                     }
