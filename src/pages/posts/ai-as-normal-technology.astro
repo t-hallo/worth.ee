@@ -68,7 +68,7 @@ const title = 'AI 作为普通技术：为什么我们不应该害怕';
         <div class="post-footer">
             <span class="human-written">真人撰写，非 AI 创作</span>
             <div class="post-actions">
-                <button onclick="navigator.clipboard.writeText(window.location.href)" class="action-btn">复制链接</button>
+                <button onclick="navigator.clipboard.writeText(window.location.href).then(()=>{this.textContent='已复制';setTimeout(()=>this.textContent='复制链接',1500)})" class="action-btn">复制链接</button>
                 <button onclick="navigator.share({title: document.title, url: window.location.href})" class="action-btn">分享</button>
             </div>
         </div>
