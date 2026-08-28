@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = [
+  {
+    title: '键盘优先的交互设计体验',
+    date: '2025-07-02',
+    slug: '#',
+  },
+  {
+    title: '构建高效的 Figma 自动化工具链',
+    date: '2025-05-11',
+    slug: '#',
+  },
+  {
+    title: '如何清晰组织设计系统中的变量',
+    date: '2025-03-15',
+    slug: '#',
+  },
+  {
+    title: 'UI 设计策略与工程落地实践',
+    date: '2022-11-21',
+    slug: '#',
+  },
+  {
+    title: '代码分支审查指南与检查清单',
+    date: '2021-04-16',
+    slug: '#',
+  },
+];
+
+const about = `花園裡邊明晃晃的，紅的紅，綠的綠，新鮮漂亮。
+
+花開了，就像睡醒了似的。鳥飛了，就像在天上逛似的。蟲子叫了，就像蟲子在說話似的。一切都活了，都有無限的本領，要做什麼，就做什麼。要怎麼樣，就怎麼樣，都是自由的。倭瓜願意爬上房就爬上房，願意爬上樹就爬上樹。黃瓜願意開一個謊花，就開一個謊花，願意結一個黃瓜，就結一個黃瓜。若都不願意，職是一個黃瓜也不結，一朵花也不開，也沒有人問它。玉米願意長多高就長多高，他若願意長到天上去，也沒有人管他。蝴蝶飛得那麼快，大紅蝴蝶滿天飛，白蝴蝶隨風滾，要是追一只蝴蝶，那蝴蝶飛上了天，像同太陽在一起了似的，那便是追不上了。`;
+---
+
+<BaseLayout title="Worth">
+    <section class="intro">
+        {about.trim().split('\n\n').map((paragraph) => (
+            <p>{paragraph.trim()}</p>
+        ))}
+    </section>
+
+    <ul class="post-list">
+        {posts.map(post => (
+            <li class="post-item">
+                <a href={post.slug} class="post-link">
+                    <span class="post-date">{post.date}</span>
+                    <span class="post-title">{post.title}</span>
+                </a>
+            </li>
+        ))}
+    </ul>
+</BaseLayout>
