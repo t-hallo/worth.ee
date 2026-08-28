@@ -46,14 +46,9 @@ const about = `花園裡邊明晃晃的，紅的紅，綠的綠，新鮮漂亮�
 
 <BaseLayout title="Worth">
     <section class="intro">
-        {about.trim().split('\n\n').map((paragraph, index) => {
-            const isLast = index === about.trim().split('\n\n').length - 1;
-            return (
-                <p>
-                    {paragraph.trim()}{isLast && <><br/><span class="attr">源自萧红《呼兰河传》</span></>}
-                </p>
-            );
-        })}
+        {about.trim().split('\n\n').map((paragraph) => (
+            <p>{paragraph.trim()}</p>
+        ))}
     </section>
 
     <ul class="post-list">
