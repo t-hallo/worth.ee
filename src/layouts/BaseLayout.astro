@@ -42,7 +42,8 @@ const { title = "Worth" } = Astro.props;
         html{scroll-behavior:smooth}
         body{font-family:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;background-color:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;line-height:1.7;display:flex;flex-direction:column;min-height:100vh;padding:48px 24px;transition:background-color .2s ease,color .2s ease}
         .container{max-width:620px;width:100%;margin:0 auto;flex:1}
-        header{margin-bottom:28px;display:flex;justify-content:space-between;align-items:center}
+        header{margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;padding:16px 0;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:background .2s ease}
+        .dark header{background:rgba(10,10,10,.85)}
         header h1{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--text-primary);display:flex;align-items:center}
         .logo-dots{display:inline-flex;gap:2px;margin-left:4px;align-items:center}
         .logo-dots span{width:2.5px;height:2.5px;border-radius:50%;background-color:var(--text-primary);display:inline-block}
@@ -59,7 +60,7 @@ const { title = "Worth" } = Astro.props;
         .post-link:hover .post-date{color:#555}
         .post-date{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;color:var(--text-muted);width:105px;flex-shrink:0;letter-spacing:-.02em;transition:color .2s ease}
         .post-title{font-family:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;font-size:14px;font-weight:500;color:var(--text-primary);transition:color .2s ease}
-        .post-content{max-width:620px;margin:0 auto;padding:48px 0}
+        .post-content{max-width:620px;margin:0 auto;padding-top:0}
         .post-content h1{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin:0 0 1rem;line-height:1.3}
         .post-content h2{font-size:1.1rem;font-weight:600;margin:1.5rem 0 .5rem}
         .post-content p{font-size:.9375rem;line-height:1.7;color:var(--text-secondary);margin:0 0 .875rem;letter-spacing:.01em}
