@@ -59,8 +59,8 @@ const { title = "Worth" } = Astro.props;
         .post-link{display:flex;align-items:baseline;padding:10px 0;text-decoration:none;color:inherit;transition:all .2s cubic-bezier(.16,1,.3,1)}
         .post-link:hover{transform:translateX(4px)}
         .post-link:hover .post-title{color:var(--hover)}
-        .post-link:hover .post-num{color:#555}
-        .post-num{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;color:var(--text-muted);width:28px;flex-shrink:0;letter-spacing:-.02em;transition:color .2s ease}
+        .post-link:hover .post-date{color:#555}
+        .post-date{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;color:var(--text-muted);width:105px;flex-shrink:0;letter-spacing:-.02em;transition:color .2s ease}
         .post-title{font-family:DM Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,sans-serif;font-size:14px;font-weight:500;color:var(--text-primary);transition:color .2s ease}
         .post-content{max-width:620px;margin:0 auto;padding-top:0}
         .post-content h1{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin:0 0 1rem;line-height:1.3}
@@ -76,8 +76,8 @@ const { title = "Worth" } = Astro.props;
             body{padding:0 16px 32px}
             footer{font-size:13px;flex-direction:column;align-items:flex-start;gap:8px;margin-top:32px}
             .footer-links{gap:12px}
-            .post-link{flex-direction:column;align-items:flex-start;padding:12px 0}
-            .post-num{width:auto;margin-bottom:2px}
+            .post-link{flex-direction:row;align-items:baseline;padding:12px 0}
+            .post-date{width:105px;margin-bottom:0}
             header{padding:12px 0}
             .header-links a{font-size:13px;padding:4px 0}
             .intro p{font-size:15px}
