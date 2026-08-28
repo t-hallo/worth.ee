@@ -125,10 +125,21 @@ const { title = "Worth" } = Astro.props;
             });
         });
 
-        // Carbon footprint (simplified)
+        // Carbon footprint: static site estimate
+        // Formula: page weight (KB) × 0.0015 g CO₂/KB
+        // (includes server, network, and device energy for a lightweight static site)
         document.addEventListener('DOMContentLoaded', () => {
             const el = document.getElementById('carbon-footprint');
-            if (el) el.textContent = `🌱 ${(document.documentElement.outerHTML.length / 512).toFixed(2)}g CO₂`;
+            if (!el) return;
+            
+            // Estimate actual page weight (HTML only, CSS/JS are inline)
+            const htmlSize = document.documentElement.outerHTML.length;
+            const pageWeightKB = htmlSize / 1024;
+            
+            // Static site: ~1.5g CO₂ per MB transferred (conservative estimate)
+            const carbon = (pageWeightKB * 0.0015).toFixed(3);
+            
+            el.textContent = `🌱 ${carbon}g CO₂`;
         });
     </script>
 </body>
