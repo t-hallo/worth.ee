@@ -40,17 +40,22 @@ const { title = "Worth" } = Astro.props;
         .dark{--bg:#0a0a0a;--text-primary:#fafafa;--text-secondary:#a3a3a3;--text-tertiary:#a3a3a3;--text-muted:#a3a3a3;--border:#262626;--hover:#fff}
         *{margin:0;padding:0;box-sizing:border-box}
         html{scroll-behavior:smooth}
-        body{font-family:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;background-color:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;line-height:1.7;display:flex;flex-direction:column;min-height:100vh;padding:0 24px 48px;transition:background-color .2s ease,color .2s ease}
+        body{font-family:DM Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,sans-serif;background-color:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;line-height:1.7;display:flex;flex-direction:column;min-height:100vh;padding:0 24px 48px;transition:background-color .2s ease,color .2s ease}
         .container{max-width:620px;width:100%;margin:0 auto;flex:1}
         header{margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;padding:16px 0;background:rgba(255,255,255,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background .2s ease}
         .dark header{background:rgba(10,10,10,.75)}
         header h1{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--text-primary);display:flex;align-items:center}
-        .logo-dots{display:inline-flex;gap:2px;margin-left:4px;align-items:center}
+        .logo-dots{display:inline-flex;gap:2px;margin-left:4px;align-items:center;padding:8px 12px;margin-left:-12px;cursor:pointer}
         .logo-dots span{width:2.5px;height:2.5px;border-radius:50%;background-color:var(--text-primary);display:inline-block}
         .logo-dots span:nth-child(1){opacity:.4}.logo-dots span:nth-child(2){opacity:.6}.logo-dots span:nth-child(3){opacity:.8}
         header a{color:inherit;text-decoration:none}
+        .header-links{display:flex;gap:16px;align-items:center}
+        .header-links a{font-size:12px;color:var(--text-tertiary);text-decoration:none;transition:color .2s ease}
+        .header-links a:hover{color:var(--hover)}
+        .theme-toggle{background:none;border:none;color:inherit;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center}
+        .theme-toggle svg{width:16px;height:16px}
         .intro{margin-bottom:40px}
-        .intro p{font-family:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:16px;text-align:justify;text-justify:inter-ideograph;word-break:break-all}
+        .intro p{font-family:DM Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,sans-serif;font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:16px;text-align:justify;text-justify:inter-ideograph;word-break:break-all}
         .intro p:last-child{margin-bottom:0}
         .post-list{list-style:none;border-top:1px solid var(--border)}
         .post-item{border-bottom:1px solid var(--border)}
@@ -59,14 +64,14 @@ const { title = "Worth" } = Astro.props;
         .post-link:hover .post-title{color:var(--hover)}
         .post-link:hover .post-date{color:#555}
         .post-date{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;color:var(--text-muted);width:105px;flex-shrink:0;letter-spacing:-.02em;transition:color .2s ease}
-        .post-title{font-family:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;font-size:14px;font-weight:500;color:var(--text-primary);transition:color .2s ease}
+        .post-title{font-family:DM Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,sans-serif;font-size:14px;font-weight:500;color:var(--text-primary);transition:color .2s ease}
         .post-content{max-width:620px;margin:0 auto;padding-top:0}
         .post-content h1{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin:0 0 1rem;line-height:1.3}
         .post-content h2{font-size:1.1rem;font-weight:600;margin:1.5rem 0 .5rem}
         .post-content p{font-size:.9375rem;line-height:1.7;color:var(--text-secondary);margin:0 0 .875rem;letter-spacing:.01em}
         .post-content a{text-decoration:underline;text-underline-offset:2px}
         .post-meta{display:flex;gap:1rem;font-size:.75rem;color:var(--text-tertiary);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
-        footer{max-width:620px;width:100%;margin:48px auto 0;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-tertiary)}
+        footer{max-width:620px;width:100%;margin:48px auto 0;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text-tertiary);flex-wrap:wrap}
         footer a{color:var(--text-tertiary);text-decoration:none;transition:color .2s ease}
         footer a:hover{color:var(--hover)}
         .footer-links{display:flex;gap:16px;align-items:center}
@@ -80,10 +85,13 @@ const { title = "Worth" } = Astro.props;
             <a href="/">
                 <h1><span class="logo-dots"><span></span><span></span><span></span></span></h1>
             </a>
-            <button id="theme-toggle" aria-label="切换主题" class="theme-toggle">
-                <svg class="hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                <svg class="block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-            </button>
+            <div class="header-links">
+                <a href="/rss.xml">RSS</a>
+                <a href="mailto:u@worth.ee">Mail</a>
+                <button id="theme-toggle" aria-label="切换主题" class="theme-toggle">
+                    <svg id="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+            </div>
         </header>
 
         <main>
@@ -94,8 +102,9 @@ const { title = "Worth" } = Astro.props;
     <footer>
         <span>Thinking 2026 ©</span>
         <div class="footer-links">
-            <a href="/rss.xml">RSS</a>
-            <a href="mailto:u@worth.ee">Mail</a>
+            <a href="/noads">No Ads</a>
+            <a href="/privacy">Privacy</a>
+            <span id="carbon-footprint">🌱 0.03g CO₂</span>
         </div>
     </footer>
 
@@ -104,13 +113,40 @@ const { title = "Worth" } = Astro.props;
         requestIdleCallback(() => {
             const stored = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if (stored === 'dark' || (!stored && prefersDark)) {
+            const isDark = stored === 'dark' || (!stored && prefersDark);
+            
+            if (isDark) {
                 document.documentElement.classList.add('dark');
             }
+            
+            updateThemeIcon(isDark);
+            
             document.getElementById('theme-toggle')?.addEventListener('click', () => {
+                const newIsDark = !document.documentElement.classList.contains('dark');
                 document.documentElement.classList.toggle('dark');
-                localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+                localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+                updateThemeIcon(newIsDark);
             });
+            
+            function updateThemeIcon(dark) {
+                const icon = document.getElementById('theme-icon');
+                if (icon) {
+                    icon.innerHTML = dark 
+                        ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>'
+                        : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+                }
+            }
+        });
+
+        // Calculate carbon footprint
+        document.addEventListener('DOMContentLoaded', () => {
+            const pageWeight = document.documentElement.outerHTML.length * 2;
+            const energyIntensity = 0.2;
+            const carbon = (pageWeight / 1024 * energyIntensity).toFixed(2);
+            const carbonEl = document.getElementById('carbon-footprint');
+            if (carbonEl) {
+                carbonEl.textContent = `🌱 ${carbon}g CO₂`;
+            }
         });
     </script>
 </body>
