@@ -9,7 +9,6 @@ const { title = "Worth" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="dns-prefetch" href="https://worth.ee" />
     
     <!-- SEO -->
     <meta name="description" content="Worth" />
@@ -25,15 +24,12 @@ const { title = "Worth" } = Astro.props;
     <!-- RSS -->
     <link rel="alternate" type="application/rss+xml" title="Worth" href="/rss.xml" />
     
-    <!-- Prefetch -->
-    <link rel="prefetch" href="/" as="document" />
-    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" /></noscript>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" /></noscript>
     
     <style is:global>
         :root{--bg:#fff;--text-primary:#111;--text-secondary:#222;--text-tertiary:#777;--text-muted:#888;--border:#eee;--hover:#000}
@@ -75,8 +71,6 @@ const { title = "Worth" } = Astro.props;
         footer a{color:var(--text-tertiary);text-decoration:none;transition:color .2s ease}
         footer a:hover{color:var(--hover)}
         .footer-links{display:flex;gap:16px;align-items:center}
-        .theme-toggle{background:none;border:none;color:inherit;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center}
-        .theme-toggle svg{width:14px;height:14px}
     </style>
 </head>
 <body>
@@ -109,44 +103,32 @@ const { title = "Worth" } = Astro.props;
     </footer>
 
     <script>
-        // Dark mode toggle - deferred to avoid blocking
+        // Dark mode + theme icon
         requestIdleCallback(() => {
             const stored = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const isDark = stored === 'dark' || (!stored && prefersDark);
             
-            if (isDark) {
-                document.documentElement.classList.add('dark');
-            }
+            if (isDark) document.documentElement.classList.add('dark');
             
-            updateThemeIcon(isDark);
+            const icon = document.getElementById('theme-icon');
+            const sun = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+            const moon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+            
+            if (icon) icon.innerHTML = isDark ? moon : sun;
             
             document.getElementById('theme-toggle')?.addEventListener('click', () => {
                 const newIsDark = !document.documentElement.classList.contains('dark');
                 document.documentElement.classList.toggle('dark');
                 localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
-                updateThemeIcon(newIsDark);
+                if (icon) icon.innerHTML = newIsDark ? moon : sun;
             });
-            
-            function updateThemeIcon(dark) {
-                const icon = document.getElementById('theme-icon');
-                if (icon) {
-                    icon.innerHTML = dark 
-                        ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>'
-                        : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
-                }
-            }
         });
 
-        // Calculate carbon footprint
+        // Carbon footprint (simplified)
         document.addEventListener('DOMContentLoaded', () => {
-            const pageWeight = document.documentElement.outerHTML.length * 2;
-            const energyIntensity = 0.2;
-            const carbon = (pageWeight / 1024 * energyIntensity).toFixed(2);
-            const carbonEl = document.getElementById('carbon-footprint');
-            if (carbonEl) {
-                carbonEl.textContent = `🌱 ${carbon}g CO₂`;
-            }
+            const el = document.getElementById('carbon-footprint');
+            if (el) el.textContent = `🌱 ${(document.documentElement.outerHTML.length / 512).toFixed(2)}g CO₂`;
         });
     </script>
 </body>
