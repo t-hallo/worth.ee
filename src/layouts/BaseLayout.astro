@@ -72,6 +72,17 @@ const { title = "Worth" } = Astro.props;
         footer a{color:var(--text-tertiary);text-decoration:none;transition:color .2s ease}
         footer a:hover{color:var(--hover)}
         .footer-links{display:flex;gap:16px;align-items:center}
+        @media (max-width:640px){
+            body{padding:0 16px 32px}
+            footer{font-size:13px;flex-direction:column;align-items:flex-start;gap:8px;margin-top:32px}
+            .footer-links{gap:12px}
+            .post-link{flex-direction:column;align-items:flex-start;padding:12px 0}
+            .post-date{width:auto;margin-bottom:2px}
+            header{padding:12px 0}
+            .header-links a{font-size:13px;padding:4px 0}
+            .intro p{font-size:15px}
+            .post-title{font-size:15px}
+        }
     </style>
 </head>
 <body>
