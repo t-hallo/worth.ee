@@ -24,9 +24,13 @@ const { title = "Worth" } = Astro.props;
     <!-- RSS -->
     <link rel="alternate" type="application/rss+xml" title="Worth" href="/rss.xml" />
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://worth.ee/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Cache meta (supplements HTTP headers for proxy caches) -->
+    <meta http-equiv="Cache-Control" content="public, max-age=3600">
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" /></noscript>
@@ -142,17 +146,12 @@ const { title = "Worth" } = Astro.props;
         });
 
         // Carbon footprint: static site estimate
-        // Formula: page weight (KB) × 0.0015 g CO₂/KB
-        // (includes server, network, and device energy for a lightweight static site)
         document.addEventListener('DOMContentLoaded', () => {
             const el = document.getElementById('carbon-footprint');
             if (!el) return;
             
-            // Estimate actual page weight (HTML only, CSS/JS are inline)
             const htmlSize = document.documentElement.outerHTML.length;
             const pageWeightKB = htmlSize / 1024;
-            
-            // Static site: ~1.5g CO₂ per MB transferred (conservative estimate)
             const carbon = (pageWeightKB * 0.0015).toFixed(3);
             
             el.textContent = `🌱 ${carbon}g CO₂`;
