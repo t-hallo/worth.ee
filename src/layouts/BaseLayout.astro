@@ -21,9 +21,6 @@ const { title = "Worth" } = Astro.props;
     <meta property="og:description" content="Worth" />
     <meta property="og:url" content="https://worth.ee/" />
     
-    <!-- RSS -->
-    <link rel="alternate" type="application/rss+xml" title="Worth" href="/rss.xml" />
-    
     <!-- Preconnect -->
     <link rel="preconnect" href="https://worth.ee/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -102,7 +99,7 @@ const { title = "Worth" } = Astro.props;
             </a>
             <div class="header-links">
                 <a href="/be">Be</a>
-                <a href="/rss.xml">RSS</a>
+                <a href="#subscribe">SUB</a>
                 <a href="mailto:u@worth.ee">Mail</a>
                 <button id="theme-toggle" aria-label="切换主题" class="theme-toggle">
                     <svg id="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
@@ -116,12 +113,24 @@ const { title = "Worth" } = Astro.props;
     </div>
 
     <footer>
-        <span>© 线条</span>
+        <span id="carbon-footprint">🌱 0.03g CO₂</span>
         <div class="footer-links">
             <a href="/privacy">Privacy</a>
-            <span id="carbon-footprint">🌱 0.03g CO₂</span>
         </div>
     </footer>
+
+    <div id="subscribe-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center">
+        <div style="background:var(--bg);padding:40px;border-radius:12px;max-width:400px;width:90%;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+            <button id="close-subscribe" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-tertiary)">✕</button>
+            <h2 style="font-size:16px;font-weight:600;margin-bottom:8px">订阅更新</h2>
+            <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:20px">通过邮件获取新文章通知，我们承诺不发送垃圾邮件，随时退订。</p>
+            <form id="subscribe-form" style="display:flex;flex-direction:column;gap:12px">
+                <input type="email" id="subscribe-email" placeholder="your@email.com" required style="padding:12px 14px;border:1px solid var(--border);border-radius:6px;font-size:14px;font-family:inherit;background:var(--bg);color:var(--text-primary);outline:none">
+                <button type="submit" style="padding:12px 20px;background:var(--text-primary);color:var(--bg);border:none;border-radius:6px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500;transition:opacity .2s">订阅</button>
+            </form>
+            <p id="subscribe-msg" style="font-size:11px;color:var(--text-muted);margin-top:12px;display:none"></p>
+        </div>
+    </div>
 
     <script>
         // Dark mode + theme icon
@@ -157,6 +166,50 @@ const { title = "Worth" } = Astro.props;
             
             el.textContent = `🌱 ${carbon}g CO₂`;
         });
+
+        // Subscribe modal
+        const subscribeLink = document.getElementById('subscribe-link');
+        const subscribeModal = document.getElementById('subscribe-modal');
+        const closeSubscribe = document.getElementById('close-subscribe');
+        const subscribeForm = document.getElementById('subscribe-form');
+        const subscribeMsg = document.getElementById('subscribe-msg');
+
+        if (subscribeLink && subscribeModal) {
+            subscribeLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                subscribeModal.style.display = 'flex';
+                document.getElementById('subscribe-email')?.focus();
+            });
+        }
+
+        if (closeSubscribe && subscribeModal) {
+            closeSubscribe.addEventListener('click', () => {
+                subscribeModal.style.display = 'none';
+            });
+        }
+
+        if (subscribeModal) {
+            subscribeModal.addEventListener('click', (e) => {
+                if (e.target === subscribeModal) subscribeModal.style.display = 'none';
+            });
+        }
+
+        if (subscribeForm) {
+            subscribeForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('subscribe-email')?.value;
+                if (email) {
+                    // TODO: integrate with actual email service
+                    subscribeMsg.textContent = '感谢订阅！我们会将新文章发送到你的邮箱。';
+                    subscribeMsg.style.display = 'block';
+                    subscribeForm.reset();
+                    setTimeout(() => {
+                        subscribeModal.style.display = 'none';
+                        subscribeMsg.style.display = 'none';
+                    }, 2000);
+                }
+            });
+        }
     </script>
 </body>
 </html>
