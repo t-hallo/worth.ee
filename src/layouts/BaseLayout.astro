@@ -110,7 +110,6 @@ const { title = "Worth" } = Astro.props;
             </a>
             <div class="header-links">
                 <a href="/be">Be</a>
-                <a href="#subscribe" id="subscribe-link">Sub</a>
                 <a href="mailto:u@worth.ee">Mail</a>
                 <button id="theme-toggle" aria-label="切换主题" class="theme-toggle">
                     <svg id="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
@@ -130,6 +129,11 @@ const { title = "Worth" } = Astro.props;
         </div>
     </footer>
 
+    <!--
+    ============================================================
+    SUBSCRIBE DRAWER — preserved for future use
+    ============================================================
+    HTML:
     <div id="subscribe-overlay" class="subscribe-overlay">
         <div class="subscribe-drawer">
             <form id="subscribe-form">
@@ -138,6 +142,12 @@ const { title = "Worth" } = Astro.props;
             </form>
         </div>
     </div>
+
+    CSS: .subscribe-overlay / .subscribe-drawer / #subscribe-form (lines 81-91)
+    JS: see // Subscribe drawer section below
+    ============================================================
+    -->
+
 
     <script>
         // Dark mode + theme icon
@@ -174,59 +184,59 @@ const { title = "Worth" } = Astro.props;
             el.textContent = `🌱 ${carbon}g CO₂`;
         });
 
-        // Subscribe drawer
-        const subscribeLink = document.getElementById('subscribe-link');
-        const overlay = document.getElementById('subscribe-overlay');
-        const drawer = document.querySelector('.subscribe-drawer');
+        // Subscribe drawer (commented out — preserved for future use)
+        // const subscribeLink = document.getElementById('subscribe-link');
+        // const overlay = document.getElementById('subscribe-overlay');
+        // const drawer = document.querySelector('.subscribe-drawer');
 
-        function positionDrawer() {
-            if (!subscribeLink || !drawer) return;
-            const rect = subscribeLink.getBoundingClientRect();
-            drawer.style.top = `${rect.bottom + 8}px`;
-            drawer.style.right = `${window.innerWidth - rect.right}px`;
-        }
+        // function positionDrawer() {
+        //     if (!subscribeLink || !drawer) return;
+        //     const rect = subscribeLink.getBoundingClientRect();
+        //     drawer.style.top = `${rect.bottom + 8}px`;
+        //     drawer.style.right = `${window.innerWidth - rect.right}px`;
+        // }
 
-        if (subscribeLink && overlay) {
-            subscribeLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                positionDrawer();
-                overlay.classList.add('open');
-                document.getElementById('subscribe-email')?.focus();
-            });
-        }
+        // if (subscribeLink && overlay) {
+        //     subscribeLink.addEventListener('click', (e) => {
+        //         e.preventDefault();
+        //         positionDrawer();
+        //         overlay.classList.add('open');
+        //         document.getElementById('subscribe-email')?.focus();
+        //     });
+        // }
 
-        if (overlay) {
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) overlay.classList.remove('open');
-            });
-        }
+        // if (overlay) {
+        //     overlay.addEventListener('click', (e) => {
+        //         if (e.target === overlay) overlay.classList.remove('open');
+        //     });
+        // }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && overlay.classList.contains('open')) {
-                overlay.classList.remove('open');
-            }
-        });
+        // document.addEventListener('keydown', (e) => {
+        //     if (e.key === 'Escape' && overlay.classList.contains('open')) {
+        //         overlay.classList.remove('open');
+        //     }
+        // });
 
-        document.getElementById('subscribe-form')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('subscribe-email')?.value;
-            if (email) {
-                const btn = document.querySelector('#subscribe-form button');
-                if (btn) {
-                    btn.textContent = 'Subscribed';
-                    btn.classList.add('done');
-                }
-                window.location.href = `mailto:u@worth.ee?subject=Subscribe&body=${encodeURIComponent(email)}`;
-                setTimeout(() => {
-                    overlay.classList.remove('open');
-                    if (btn) {
-                        btn.textContent = 'Subscribe';
-                        btn.classList.remove('done');
-                    }
-                    document.getElementById('subscribe-email').value = '';
-                }, 1000);
-            }
-        });
+        // document.getElementById('subscribe-form')?.addEventListener('submit', (e) => {
+        //     e.preventDefault();
+        //     const email = document.getElementById('subscribe-email')?.value;
+        //     if (email) {
+        //         const btn = document.querySelector('#subscribe-form button');
+        //         if (btn) {
+        //             btn.textContent = 'Subscribed';
+        //             btn.classList.add('done');
+        //         }
+        //         window.location.href = `mailto:u@worth.ee?subject=Subscribe&body=${encodeURIComponent(email)}`;
+        //         setTimeout(() => {
+        //             overlay.classList.remove('open');
+        //             if (btn) {
+        //                 btn.textContent = 'Subscribe';
+        //                 btn.classList.remove('done');
+        //             }
+        //             document.getElementById('subscribe-email').value = '';
+        //         }, 1000);
+        //     }
+        // });
     </script>
 </body>
 </html>
