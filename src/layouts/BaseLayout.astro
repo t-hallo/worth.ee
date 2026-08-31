@@ -78,17 +78,6 @@ const { title = "Worth" } = Astro.props;
         .post-actions{display:flex;gap:12px}
         .action-btn{background:none;border:1px solid var(--border);color:var(--text-tertiary);font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;transition:all .2s ease;font-family:inherit}
         .action-btn:hover{border-color:var(--hover);color:var(--hover)}
-        .subscribe-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-        .subscribe-overlay.open{display:block}
-        .subscribe-drawer{position:absolute;top:48px;right:0;width:260px;background:rgba(255,255,255,.85);border-radius:12px;padding:20px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,.08);animation:slideDown .2s cubic-bezier(.16,1,.3,1)}
-        .dark .subscribe-drawer{background:rgba(15,15,15,.85)}
-        @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-        #subscribe-form{display:flex;flex-direction:column;gap:10px}
-        #subscribe-email{border:none;border-bottom:1px solid var(--border);padding:8px 0;font-size:14px;font-family:inherit;background:transparent;color:var(--text-primary);outline:none}
-        #subscribe-email:focus{border-color:var(--text-tertiary)}
-        #subscribe-form button{padding:8px 0;font-size:13px;font-family:inherit;color:var(--text-tertiary);background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;text-align:left;transition:all .2s ease}
-        #subscribe-form button:hover{color:var(--hover)}
-        #subscribe-form button.done{color:var(--text-primary);font-weight:500}
         @media (max-width:640px){
             body{padding:0 28px 32px}
             footer{font-size:13px;flex-direction:row;align-items:center;gap:8px;margin-top:32px}
@@ -129,26 +118,6 @@ const { title = "Worth" } = Astro.props;
         </div>
     </footer>
 
-    <!--
-    ============================================================
-    SUBSCRIBE DRAWER — preserved for future use
-    ============================================================
-    HTML:
-    <div id="subscribe-overlay" class="subscribe-overlay">
-        <div class="subscribe-drawer">
-            <form id="subscribe-form">
-                <input type="email" id="subscribe-email" placeholder="your@email.com" required>
-                <button type="submit">Subscribe</button>
-            </form>
-        </div>
-    </div>
-
-    CSS: .subscribe-overlay / .subscribe-drawer / #subscribe-form (lines 81-91)
-    JS: see // Subscribe drawer section below
-    ============================================================
-    -->
-
-
     <script>
         // Dark mode + theme icon
         requestIdleCallback(() => {
@@ -183,60 +152,6 @@ const { title = "Worth" } = Astro.props;
             
             el.textContent = `🌱 ${carbon}g CO₂`;
         });
-
-        // Subscribe drawer (commented out — preserved for future use)
-        // const subscribeLink = document.getElementById('subscribe-link');
-        // const overlay = document.getElementById('subscribe-overlay');
-        // const drawer = document.querySelector('.subscribe-drawer');
-
-        // function positionDrawer() {
-        //     if (!subscribeLink || !drawer) return;
-        //     const rect = subscribeLink.getBoundingClientRect();
-        //     drawer.style.top = `${rect.bottom + 8}px`;
-        //     drawer.style.right = `${window.innerWidth - rect.right}px`;
-        // }
-
-        // if (subscribeLink && overlay) {
-        //     subscribeLink.addEventListener('click', (e) => {
-        //         e.preventDefault();
-        //         positionDrawer();
-        //         overlay.classList.add('open');
-        //         document.getElementById('subscribe-email')?.focus();
-        //     });
-        // }
-
-        // if (overlay) {
-        //     overlay.addEventListener('click', (e) => {
-        //         if (e.target === overlay) overlay.classList.remove('open');
-        //     });
-        // }
-
-        // document.addEventListener('keydown', (e) => {
-        //     if (e.key === 'Escape' && overlay.classList.contains('open')) {
-        //         overlay.classList.remove('open');
-        //     }
-        // });
-
-        // document.getElementById('subscribe-form')?.addEventListener('submit', (e) => {
-        //     e.preventDefault();
-        //     const email = document.getElementById('subscribe-email')?.value;
-        //     if (email) {
-        //         const btn = document.querySelector('#subscribe-form button');
-        //         if (btn) {
-        //             btn.textContent = 'Subscribed';
-        //             btn.classList.add('done');
-        //         }
-        //         window.location.href = `mailto:u@worth.ee?subject=Subscribe&body=${encodeURIComponent(email)}`;
-        //         setTimeout(() => {
-        //             overlay.classList.remove('open');
-        //             if (btn) {
-        //                 btn.textContent = 'Subscribe';
-        //                 btn.classList.remove('done');
-        //             }
-        //             document.getElementById('subscribe-email').value = '';
-        //         }, 1000);
-        //     }
-        // });
     </script>
 </body>
 </html>
