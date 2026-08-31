@@ -78,15 +78,15 @@ const { title = "Worth" } = Astro.props;
         .post-actions{display:flex;gap:12px}
         .action-btn{background:none;border:1px solid var(--border);color:var(--text-tertiary);font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;transition:all .2s ease;font-family:inherit}
         .action-btn:hover{border-color:var(--hover);color:var(--hover)}
-        .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-        .overlay.open{display:flex}
-        .bottom-sheet{background:rgba(255,255,255,.85);width:100%;max-width:480px;padding:24px 28px 28px;border-radius:16px 16px 0 0;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);animation:slideUp .3s cubic-bezier(.16,1,.3,1)}
-        .dark .bottom-sheet{background:rgba(15,15,15,.85)}
-        @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-        #subscribe-form{display:flex;flex-direction:column;gap:12px}
-        #subscribe-email{border:none;border-bottom:1px solid var(--border);padding:10px 0;font-size:14px;font-family:inherit;background:transparent;color:var(--text-primary);outline:none}
+        .subscribe-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+        .subscribe-overlay.open{display:block}
+        .subscribe-drawer{position:absolute;top:60px;right:24px;width:280px;background:rgba(255,255,255,.85);border-radius:12px;padding:20px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,.08);animation:slideDown .2s cubic-bezier(.16,1,.3,1)}
+        .dark .subscribe-drawer{background:rgba(15,15,15,.85)}
+        @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+        #subscribe-form{display:flex;flex-direction:column;gap:10px}
+        #subscribe-email{border:none;border-bottom:1px solid var(--border);padding:8px 0;font-size:14px;font-family:inherit;background:transparent;color:var(--text-primary);outline:none}
         #subscribe-email:focus{border-color:var(--text-tertiary)}
-        #subscribe-form button{padding:10px 0;font-size:13px;font-family:inherit;color:var(--text-tertiary);background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;transition:color .2s ease}
+        #subscribe-form button{padding:8px 0;font-size:13px;font-family:inherit;color:var(--text-tertiary);background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;text-align:left;transition:color .2s ease}
         #subscribe-form button:hover{color:var(--hover)}
         @media (max-width:640px){
             body{padding:0 28px 32px}
@@ -129,8 +129,8 @@ const { title = "Worth" } = Astro.props;
         </div>
     </footer>
 
-    <div id="subscribe-modal" class="overlay">
-        <div class="bottom-sheet">
+    <div id="subscribe-overlay" class="subscribe-overlay">
+        <div class="subscribe-drawer">
             <form id="subscribe-form">
                 <input type="email" id="subscribe-email" placeholder="your@email.com" required>
                 <button type="submit">Subscribe</button>
@@ -173,9 +173,9 @@ const { title = "Worth" } = Astro.props;
             el.textContent = `🌱 ${carbon}g CO₂`;
         });
 
-        // Subscribe overlay
+        // Subscribe drawer
         const subscribeLink = document.getElementById('subscribe-link');
-        const overlay = document.getElementById('subscribe-modal');
+        const overlay = document.getElementById('subscribe-overlay');
 
         if (subscribeLink && overlay) {
             subscribeLink.addEventListener('click', (e) => {
