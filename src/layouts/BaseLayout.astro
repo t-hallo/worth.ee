@@ -87,8 +87,8 @@ const { title = "Worth" } = Astro.props;
         #subscribe-email{padding:14px 16px;border:1px solid rgba(0,0,0,.08);border-radius:8px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.5);color:var(--text-primary);outline:none;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
         .dark #subscribe-email{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1)}
         #subscribe-email:focus{border-color:var(--text-tertiary)}
-        #subscribe-form button{padding:14px 20px;background:var(--text-primary);color:var(--bg);border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500;transition:transform .1s ease}
-        #subscribe-form button:active{transform:scale(.97)}
+        #subscribe-form button{background:none;border:none;font-size:13px;color:var(--text-tertiary);cursor:pointer;font-family:inherit;padding:0;text-align:left;transition:color .2s ease}
+        #subscribe-form button:hover{color:var(--hover)}
         @media (max-width:640px){
             body{padding:0 28px 32px}
             footer{font-size:13px;flex-direction:row;align-items:center;gap:8px;margin-top:32px}
