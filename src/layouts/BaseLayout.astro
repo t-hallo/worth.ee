@@ -79,16 +79,19 @@ const { title = "Worth" } = Astro.props;
         .action-btn{background:none;border:1px solid var(--border);color:var(--text-tertiary);font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;transition:all .2s ease;font-family:inherit}
         .action-btn:hover{border-color:var(--hover);color:var(--hover)}
         .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-        .modal-glass{background:rgba(255,255,255,.65);padding:48px;border-radius:16px;max-width:360px;width:90%;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.08);border:1px solid rgba(255,255,255,.3)}
-        .dark .modal-glass{background:rgba(20,20,20,.65);border:1px solid rgba(255,255,255,.1)}
-        .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:16px;cursor:pointer;color:var(--text-tertiary);opacity:.6;transition:opacity .2s}
+        .modal-glass{background:rgba(255,255,255,.7);padding:48px 40px;border-radius:16px;max-width:340px;width:90%;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.06);border:1px solid rgba(255,255,255,.4)}
+        .dark .modal-glass{background:rgba(15,15,15,.7);border:1px solid rgba(255,255,255,.08)}
+        .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--text-tertiary);opacity:.5;transition:opacity .2s;padding:4px;display:flex;align-items:center;justify-content:center}
         .modal-close:hover{opacity:1}
-        #subscribe-form{display:flex;flex-direction:column;gap:12px}
-        #subscribe-email{padding:14px 16px;border:1px solid rgba(0,0,0,.08);border-radius:8px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.5);color:var(--text-primary);outline:none;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+        .modal-label{display:block;font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:20px;letter-spacing:.02em}
+        #subscribe-form{display:flex;flex-direction:column;gap:14px}
+        #subscribe-email{padding:14px 16px;border:1px solid rgba(0,0,0,.08);border-radius:8px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.6);color:var(--text-primary);outline:none;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);transition:border-color .2s}
         .dark #subscribe-email{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1)}
         #subscribe-email:focus{border-color:var(--text-tertiary)}
-        #subscribe-form button{background:none;border:none;font-size:13px;color:var(--text-tertiary);cursor:pointer;font-family:inherit;padding:0;text-align:left;transition:color .2s ease}
+        #subscribe-form button{display:flex;align-items:center;gap:8px;background:none;border:none;font-size:13px;color:var(--text-tertiary);cursor:pointer;font-family:inherit;padding:0;transition:color .2s ease}
         #subscribe-form button:hover{color:var(--hover)}
+        #subscribe-form button svg{transition:transform .2s ease}
+        #subscribe-form button:hover svg{transform:translateX(2px)}
         @media (max-width:640px){
             body{padding:0 28px 32px}
             footer{font-size:13px;flex-direction:row;align-items:center;gap:8px;margin-top:32px}
@@ -132,10 +135,16 @@ const { title = "Worth" } = Astro.props;
 
     <div id="subscribe-modal" class="modal-overlay">
         <div class="modal-glass">
-            <button id="close-subscribe" class="modal-close">✕</button>
+            <button id="close-subscribe" class="modal-close">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l12 12M13 1L1 13"/></svg>
+            </button>
+            <span class="modal-label">订阅</span>
             <form id="subscribe-form">
                 <input type="email" id="subscribe-email" placeholder="your@email.com" required>
-                <button type="submit">Subscribe</button>
+                <button type="submit">
+                    <span>订阅</span>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 6h10M7 2l4 4-4 4"/></svg>
+                </button>
             </form>
         </div>
     </div>
