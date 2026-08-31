@@ -78,15 +78,16 @@ const { title = "Worth" } = Astro.props;
         .post-actions{display:flex;gap:12px}
         .action-btn{background:none;border:1px solid var(--border);color:var(--text-tertiary);font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;transition:all .2s ease;font-family:inherit}
         .action-btn:hover{border-color:var(--hover);color:var(--hover)}
-        .drawer{--drawer-width:320px;position:fixed;top:0;right:calc(-1 * var(--drawer-width));width:var(--drawer-width);height:100%;background:rgba(255,255,255,.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:100;padding:60px 32px;transition:right .3s cubic-bezier(.16,1,.3,1)}
-        .drawer.open{right:0}
-        .dark .drawer{background:rgba(10,10,10,.6)}
-        .drawer-close{position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--text-tertiary);opacity:.5;transition:opacity .2s;padding:4px;display:flex;align-items:center;justify-content:center}
-        .drawer-close:hover{opacity:1}
-        #subscribe-form{display:flex;flex-direction:column;gap:14px}
-        #subscribe-email{padding:14px 16px;border:1px solid rgba(0,0,0,.08);border-radius:8px;font-size:14px;font-family:inherit;background:rgba(255,255,255,.6);color:var(--text-primary);outline:none;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);transition:border-color .2s}
-        .dark #subscribe-email{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1)}
+        .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+        .overlay.open{display:flex}
+        .bottom-sheet{background:rgba(255,255,255,.85);width:100%;max-width:480px;padding:24px 28px 28px;border-radius:16px 16px 0 0;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);animation:slideUp .3s cubic-bezier(.16,1,.3,1)}
+        .dark .bottom-sheet{background:rgba(15,15,15,.85)}
+        @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+        #subscribe-form{display:flex;flex-direction:column;gap:12px}
+        #subscribe-email{border:none;border-bottom:1px solid var(--border);padding:10px 0;font-size:14px;font-family:inherit;background:transparent;color:var(--text-primary);outline:none}
         #subscribe-email:focus{border-color:var(--text-tertiary)}
+        #subscribe-form button{padding:10px 0;font-size:13px;font-family:inherit;color:var(--text-tertiary);background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;transition:color .2s ease}
+        #subscribe-form button:hover{color:var(--hover)}
         @media (max-width:640px){
             body{padding:0 28px 32px}
             footer{font-size:13px;flex-direction:row;align-items:center;gap:8px;margin-top:32px}
@@ -128,14 +129,14 @@ const { title = "Worth" } = Astro.props;
         </div>
     </footer>
 
-    <aside id="subscribe-drawer" class="drawer">
-        <button id="close-drawer" class="drawer-close">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l12 12M13 1L1 13"/></svg>
-        </button>
-        <form id="subscribe-form">
-            <input type="email" id="subscribe-email" placeholder="your@email.com" required>
-        </form>
-    </aside>
+    <div id="subscribe-modal" class="overlay">
+        <div class="bottom-sheet">
+            <form id="subscribe-form">
+                <input type="email" id="subscribe-email" placeholder="your@email.com" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </div>
 
     <script>
         // Dark mode + theme icon
@@ -172,26 +173,27 @@ const { title = "Worth" } = Astro.props;
             el.textContent = `🌱 ${carbon}g CO₂`;
         });
 
-        // Subscribe drawer
+        // Subscribe overlay
         const subscribeLink = document.getElementById('subscribe-link');
-        const drawer = document.getElementById('subscribe-drawer');
-        const closeDrawer = document.getElementById('close-drawer');
+        const overlay = document.getElementById('subscribe-modal');
 
-        if (subscribeLink && drawer) {
+        if (subscribeLink && overlay) {
             subscribeLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                drawer.classList.add('open');
+                overlay.classList.add('open');
                 document.getElementById('subscribe-email')?.focus();
             });
         }
 
-        if (closeDrawer && drawer) {
-            closeDrawer.addEventListener('click', () => drawer.classList.remove('open'));
+        if (overlay) {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) overlay.classList.remove('open');
+            });
         }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && drawer.classList.contains('open')) {
-                drawer.classList.remove('open');
+            if (e.key === 'Escape' && overlay.classList.contains('open')) {
+                overlay.classList.remove('open');
             }
         });
 
@@ -199,14 +201,6 @@ const { title = "Worth" } = Astro.props;
             e.preventDefault();
             const email = document.getElementById('subscribe-email')?.value;
             if (email) window.location.href = `mailto:u@worth.ee?subject=Subscribe&body=${encodeURIComponent(email)}`;
-        });
-
-        document.getElementById('subscribe-email')?.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const email = e.target.value;
-                if (email) window.location.href = `mailto:u@worth.ee?subject=Subscribe&body=${encodeURIComponent(email)}`;
-            }
         });
     </script>
 </body>
