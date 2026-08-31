@@ -86,8 +86,9 @@ const { title = "Worth" } = Astro.props;
         #subscribe-form{display:flex;flex-direction:column;gap:10px}
         #subscribe-email{border:none;border-bottom:1px solid var(--border);padding:8px 0;font-size:14px;font-family:inherit;background:transparent;color:var(--text-primary);outline:none}
         #subscribe-email:focus{border-color:var(--text-tertiary)}
-        #subscribe-form button{padding:8px 0;font-size:13px;font-family:inherit;color:var(--text-tertiary);background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;text-align:left;transition:color .2s ease}
+        #subscribe-form button{padding:8px 0;font-size:13px;font-family:inherit;color:var(--text-tertiary);background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;text-align:left;transition:all .2s ease}
         #subscribe-form button:hover{color:var(--hover)}
+        #subscribe-form button.done{color:var(--text-primary);font-weight:500}
         @media (max-width:640px){
             body{padding:0 28px 32px}
             footer{font-size:13px;flex-direction:row;align-items:center;gap:8px;margin-top:32px}
@@ -211,12 +212,19 @@ const { title = "Worth" } = Astro.props;
             const email = document.getElementById('subscribe-email')?.value;
             if (email) {
                 const btn = document.querySelector('#subscribe-form button');
-                if (btn) btn.textContent = 'Subscribed';
-                document.getElementById('subscribe-email').value = '';
+                if (btn) {
+                    btn.textContent = 'Subscribed';
+                    btn.classList.add('done');
+                }
+                window.location.href = `mailto:u@worth.ee?subject=Subscribe&body=${encodeURIComponent(email)}`;
                 setTimeout(() => {
                     overlay.classList.remove('open');
-                    if (btn) btn.textContent = 'Subscribe';
-                }, 1500);
+                    if (btn) {
+                        btn.textContent = 'Subscribe';
+                        btn.classList.remove('done');
+                    }
+                    document.getElementById('subscribe-email').value = '';
+                }, 1000);
             }
         });
     </script>
