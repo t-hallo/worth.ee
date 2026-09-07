@@ -5,37 +5,35 @@ const { title = "Worth" } = Astro.props;
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <script blocking="render">
-        const t = localStorage.getItem('theme');
-        const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (t === 'dark' || (!t && d)) {
-            document.documentElement.classList.add('dark');
-            document.documentElement.style.backgroundColor = '#0a0a0a';
-        } else {
-            document.documentElement.style.backgroundColor = '#fff';
-        }
-    </script>
-    <script blocking="render">
-        // Toggle handler - runs immediately after this script
-        document.addEventListener('DOMContentLoaded', () => {
-            const icon = document.getElementById('theme-icon');
-            const toggle = document.getElementById('theme-toggle');
-            const sun = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
-            const moon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
-            
-            const isDark = document.documentElement.classList.contains('dark');
-            if (icon) icon.innerHTML = isDark ? moon : sun;
-            
-            if (toggle) {
-                toggle.addEventListener('click', () => {
-                    const newIsDark = !document.documentElement.classList.contains('dark');
-                    document.documentElement.classList.toggle('dark');
-                    localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
-                    if (icon) icon.innerHTML = newIsDark ? moon : sun;
-                });
+    <script is:inline blocking="render">
+        // Apply theme immediately to prevent FOUC
+        (function() {
+            const stored = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = stored === 'dark' || (!stored && prefersDark);
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.style.colorScheme = 'dark';
+            } else {
+                document.documentElement.style.colorScheme = 'light';
+            }
+        })();
+        
+        // Handle Astro view transitions - apply theme to new page before swap
+        document.addEventListener('astro:before-swap', (event) => {
+            const stored = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = stored === 'dark' || (!stored && prefersDark);
+            if (isDark) {
+                event.newDocument.documentElement.classList.add('dark');
+                event.newDocument.documentElement.style.colorScheme = 'dark';
+            } else {
+                event.newDocument.documentElement.classList.remove('dark');
+                event.newDocument.documentElement.style.colorScheme = 'light';
             }
         });
     </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
@@ -58,26 +56,11 @@ const { title = "Worth" } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Cache meta (supplements HTTP headers for proxy caches) -->
+    <!-- Cache meta -->
     <meta http-equiv="Cache-Control" content="public, max-age=3600">
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" /></noscript>
-    
-    <script is:inline blocking="render">
-        // Apply theme immediately to prevent FOUC
-        (function() {
-            const stored = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isDark = stored === 'dark' || (!stored && prefersDark);
-            if (isDark) {
-                document.documentElement.classList.add('dark');
-                document.documentElement.style.backgroundColor = '#0a0a0a';
-            } else {
-                document.documentElement.style.backgroundColor = '#fff';
-            }
-        })();
-    </script>
     
     <style is:global>
         :root{--bg:#fff;--text-primary:#111;--text-secondary:#222;--text-tertiary:#777;--text-muted:#888;--border:#eee;--hover:#000}
@@ -85,8 +68,6 @@ const { title = "Worth" } = Astro.props;
         *{margin:0;padding:0;box-sizing:border-box}
         html{scroll-behavior:smooth}
         body{font-family:DM Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,sans-serif;background-color:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;line-height:1.7;display:flex;flex-direction:column;min-height:100vh;padding:0 24px 48px}
-        @media(prefers-color-scheme:dark){body{background-color:#0a0a0a}}
-        .dark body{background-color:#0a0a0a}
         .container{max-width:620px;width:100%;margin:0 auto;flex:1}
         header{margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;padding:16px 0;background:rgba(255,255,255,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
         .dark header{background:rgba(10,10,10,.75)}
@@ -167,42 +148,26 @@ const { title = "Worth" } = Astro.props;
         </div>
     </footer>
 
-    <script>
-        // Apply theme immediately to prevent FOUC
-        (function() {
-            const stored = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isDark = stored === 'dark' || (!stored && prefersDark);
-            if (isDark) document.documentElement.classList.add('dark');
-        })();
-
-        // Theme icon + toggle
-        requestIdleCallback(() => {
+    <script is:inline>
+        // Theme toggle
+        document.addEventListener('DOMContentLoaded', function() {
             const icon = document.getElementById('theme-icon');
+            const toggle = document.getElementById('theme-toggle');
             const sun = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
             const moon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
             
             const isDark = document.documentElement.classList.contains('dark');
             if (icon) icon.innerHTML = isDark ? moon : sun;
             
-            document.getElementById('theme-toggle')?.addEventListener('click', () => {
-                const newIsDark = !document.documentElement.classList.contains('dark');
-                document.documentElement.classList.toggle('dark');
-                localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
-                if (icon) icon.innerHTML = newIsDark ? moon : sun;
-            });
-        });
-
-        // Carbon footprint: static site estimate
-        document.addEventListener('DOMContentLoaded', () => {
-            const el = document.getElementById('carbon-footprint');
-            if (!el) return;
-            
-            const htmlSize = document.documentElement.outerHTML.length;
-            const pageWeightKB = htmlSize / 1024;
-            const carbon = (pageWeightKB * 0.0015).toFixed(3);
-            
-            el.textContent = `🌱 ${carbon}g CO₂`;
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    const newIsDark = !document.documentElement.classList.contains('dark');
+                    document.documentElement.classList.toggle('dark');
+                    document.documentElement.style.colorScheme = newIsDark ? 'dark' : 'light';
+                    localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+                    if (icon) icon.innerHTML = newIsDark ? moon : sun;
+                });
+            }
         });
     </script>
 </body>
