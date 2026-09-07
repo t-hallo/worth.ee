@@ -33,13 +33,18 @@ const { title = "Worth" } = Astro.props;
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" /></noscript>
     
-    <script>
-        // Apply theme BEFORE any rendering to prevent FOUC
+    <script is:inline>
+        // Apply theme immediately to prevent FOUC
         (function() {
             const stored = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const isDark = stored === 'dark' || (!stored && prefersDark);
-            if (isDark) document.documentElement.classList.add('dark');
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.style.backgroundColor = '#0a0a0a';
+            } else {
+                document.documentElement.style.backgroundColor = '#fff';
+            }
         })();
     </script>
     
