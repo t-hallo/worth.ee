@@ -61,6 +61,20 @@ const { title = "Worth" } = Astro.props;
             var sun = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
             var moon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
             
+            // 应用主题 — 页面加载和 SPA 导航后都需要
+            function applyTheme() {
+                var t = localStorage.getItem('theme');
+                var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && d)) {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.style.colorScheme = 'dark';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.style.colorScheme = 'light';
+                }
+                updateIcon();
+            }
+            
             function updateIcon() {
                 var icon = document.getElementById('theme-icon');
                 if (icon) icon.innerHTML = document.documentElement.classList.contains('dark') ? moon : sun;
@@ -87,12 +101,12 @@ const { title = "Worth" } = Astro.props;
             });
             
             // 初始化
-            updateIcon();
+            applyTheme();
             updateCarbon();
             
-            // SPA 导航后重新初始化
+            // SPA 导航后重新应用主题
             document.addEventListener('astro:after-swap', function() {
-                updateIcon();
+                applyTheme();
                 updateCarbon();
             });
         })();
