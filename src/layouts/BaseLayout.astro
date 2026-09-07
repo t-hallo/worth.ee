@@ -5,18 +5,7 @@ const { title = "Worth" } = Astro.props;
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <script is:inline>
-        (function() {
-            var t = localStorage.getItem('theme');
-            var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if (t === 'dark' || (!t && d)) {
-                document.documentElement.classList.add('dark');
-                document.documentElement.style.backgroundColor = '#0a0a0a';
-            } else {
-                document.documentElement.style.backgroundColor = '#fff';
-            }
-        })();
-    </script>
+    <meta name="color-scheme" content="dark light">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
@@ -41,6 +30,9 @@ const { title = "Worth" } = Astro.props;
     
     <!-- Cache meta -->
     <meta http-equiv="Cache-Control" content="public, max-age=3600">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" /></noscript>
     
     <style is:global>
         :root{--bg:#fff;--text-primary:#111;--text-secondary:#222;--text-tertiary:#777;--text-muted:#888;--border:#eee;--hover:#000}
@@ -100,6 +92,18 @@ const { title = "Worth" } = Astro.props;
             .post-title{font-size:14px;max-width:170px}
         }
     </style>
+    <script is:inline>
+        (function() {
+            var t = localStorage.getItem('theme');
+            var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (t === 'dark' || (!t && d)) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.style.colorScheme = 'dark';
+            } else {
+                document.documentElement.style.colorScheme = 'light';
+            }
+        })();
+    </script>
 </head>
 <body>
     <div class="container">
@@ -128,6 +132,25 @@ const { title = "Worth" } = Astro.props;
         </div>
     </footer>
 
-    <script src="/theme-toggle.js" is:inline></script>
+    <script is:inline>
+        document.addEventListener('DOMContentLoaded', function() {
+            var icon = document.getElementById('theme-icon');
+            var toggle = document.getElementById('theme-toggle');
+            var sun = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+            var moon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+            
+            var isDark = document.documentElement.classList.contains('dark');
+            if (icon) icon.innerHTML = isDark ? moon : sun;
+            
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    var newIsDark = !document.documentElement.classList.contains('dark');
+                    document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+                    if (icon) icon.innerHTML = newIsDark ? moon : sun;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
