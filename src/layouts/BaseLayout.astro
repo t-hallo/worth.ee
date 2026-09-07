@@ -20,6 +20,7 @@ const { title = "Worth" } = Astro.props;
     <meta property="og:title" content={title} />
     <meta property="og:description" content="Worth" />
     <meta property="og:url" content="https://worth.ee/" />
+    <meta property="og:image" content="https://worth.ee/og-image.png" />
     
     <!-- Preconnect -->
     <link rel="preconnect" href="https://worth.ee/">
@@ -37,9 +38,9 @@ const { title = "Worth" } = Astro.props;
         .dark{--bg:#0a0a0a;--text-primary:#fafafa;--text-secondary:#a3a3a3;--text-tertiary:#a3a3a3;--text-muted:#a3a3a3;--border:#262626;--hover:#fff}
         *{margin:0;padding:0;box-sizing:border-box}
         html{scroll-behavior:smooth}
-        body{font-family:DM Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,sans-serif;background-color:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;line-height:1.7;display:flex;flex-direction:column;min-height:100vh;padding:0 24px 48px;transition:background-color .2s ease,color .2s ease}
+        body{font-family:DM Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,sans-serif;background-color:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;line-height:1.7;display:flex;flex-direction:column;min-height:100vh;padding:0 24px 48px}
         .container{max-width:620px;width:100%;margin:0 auto;flex:1}
-        header{margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;padding:16px 0;background:rgba(255,255,255,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background .2s ease}
+        header{margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;padding:16px 0;background:rgba(255,255,255,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
         .dark header{background:rgba(10,10,10,.75)}
         header h1{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--text-primary);display:flex;align-items:center}
         .logo-dots{display:inline-flex;gap:2px;align-items:center;padding:8px 12px;margin-left:-8px;cursor:pointer}
@@ -119,18 +120,21 @@ const { title = "Worth" } = Astro.props;
     </footer>
 
     <script>
-        // Dark mode + theme icon
-        requestIdleCallback(() => {
+        // Apply theme immediately to prevent FOUC
+        (function() {
             const stored = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const isDark = stored === 'dark' || (!stored && prefersDark);
-            
             if (isDark) document.documentElement.classList.add('dark');
-            
+        })();
+
+        // Theme icon + toggle
+        requestIdleCallback(() => {
             const icon = document.getElementById('theme-icon');
             const sun = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
             const moon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
             
+            const isDark = document.documentElement.classList.contains('dark');
             if (icon) icon.innerHTML = isDark ? moon : sun;
             
             document.getElementById('theme-toggle')?.addEventListener('click', () => {
