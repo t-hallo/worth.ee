@@ -1,15 +1,8 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const posts = [
-  { title: '被解决的逻辑：AI 真正的危险不是取代你，而是让你变得可有可无', date: '2026-08-28', slug: '/posts/logic-of-the-solved' },
-  { title: 'AI 作为普通技术：为什么我们不应该害怕', date: '2026-08-28', slug: '/posts/ai-as-normal-technology' },
-  { title: '键盘优先的交互设计体验', date: '2025-07-02', slug: null },
-  { title: '构建高效的 Figma 自动化工具链', date: '2025-05-11', slug: null },
-  { title: '如何清晰组织设计系统中的变量', date: '2025-03-15', slug: null },
-  { title: 'UI 设计策略与工程落地实践', date: '2022-11-21', slug: null },
-  { title: '代码分支审查指南与检查清单', date: '2021-04-16', slug: null },
-];
+const posts = await getCollection('posts');
 
 const about = `花园里边明晃晃的，红的红，绿的绿，新鲜漂亮。
 
@@ -26,17 +19,10 @@ const about = `花园里边明晃晃的，红的红，绿的绿，新鲜漂亮�
     <ul class="post-list">
         {posts.map(post => (
             <li class="post-item">
-                {post.slug ? (
-                    <a href={post.slug} class="post-link">
-                        <span class="post-date">{post.date}</span>
-                        <span class="post-title">{post.title}</span>
-                    </a>
-                ) : (
-                    <span class="post-link">
-                        <span class="post-date">{post.date}</span>
-                        <span class="post-title">{post.title}</span>
-                    </span>
-                )}
+                <a href={`/posts/${post.slug}`} class="post-link">
+                    <span class="post-date">{post.data.date}</span>
+                    <span class="post-title">{post.data.title}</span>
+                </a>
             </li>
         ))}
     </ul>

@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from 'astro:transitions';
-const { title = "Worth" } = Astro.props;
+const { title = "Worth", description = "Worth", canonical } = Astro.props;
+const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
 ---
 
 <!DOCTYPE html>
@@ -12,13 +13,13 @@ const { title = "Worth" } = Astro.props;
     <title>{title}</title>
     <ClientRouter />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="description" content="Worth" />
+    <meta name="description" content={description} />
     <meta name="author" content="Worth" />
-    <link rel="canonical" href="https://worth.ee/" />
+    <link rel="canonical" href={pageUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content="Worth" />
-    <meta property="og:url" content="https://worth.ee/" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
     <meta property="og:image" content="https://worth.ee/og-image.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,37 +27,8 @@ const { title = "Worth" } = Astro.props;
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" /></noscript>
-    <script src="/theme-init.js" is:inline></script>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <a href="/">
-                <h1><span class="logo-dots"><span></span><span></span><span></span></span></h1>
-            </a>
-            <div class="header-links">
-                <a href="/be">Be</a>
-                <a href="mailto:u@worth.ee">Mail</a>
-                <button id="theme-toggle" aria-label="切换主题" class="theme-toggle">
-                    <svg id="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                </button>
-            </div>
-        </header>
-
-        <main>
-            <slot />
-        </main>
-    </div>
-
-    <footer>
-        <span id="carbon-footprint">🌱 0.03g CO₂</span>
-        <div class="footer-links">
-            <a href="/privacy">Privacy</a>
-        </div>
-    </footer>
-
     <script is:inline>
-        // Theme toggle + Carbon footprint
+        // 主题初始化 + 切换 + 碳足迹
         (function() {
             var sun = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
             var moon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
@@ -80,15 +52,6 @@ const { title = "Worth" } = Astro.props;
                 if (icon) icon.innerHTML = document.documentElement.classList.contains('dark') ? moon : sun;
             }
             
-            function updateCarbon() {
-                var el = document.getElementById('carbon-footprint');
-                if (!el) return;
-                var htmlSize = document.documentElement.outerHTML.length;
-                var pageWeightKB = htmlSize / 1024;
-                var carbon = (pageWeightKB * 0.0015).toFixed(3);
-                el.textContent = '🌱 ' + carbon + 'g CO₂';
-            }
-            
             // 事件委托 — SPA 导航后仍然有效
             document.addEventListener('click', function(e) {
                 if (e.target.closest('#theme-toggle')) {
@@ -102,14 +65,38 @@ const { title = "Worth" } = Astro.props;
             
             // 初始化
             applyTheme();
-            updateCarbon();
             
             // SPA 导航后重新应用主题
             document.addEventListener('astro:after-swap', function() {
                 applyTheme();
-                updateCarbon();
             });
         })();
     </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/">
+                <h1><span class="logo-dots"><span></span><span></span><span></span></span></h1>
+            </a>
+            <div class="header-links">
+                <a href="/be">Be</a>
+                <a href="mailto:u@worth.ee">Mail</a>
+                <button id="theme-toggle" aria-label="切换主题" class="theme-toggle">
+                    <svg id="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <slot />
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="/privacy">Privacy</a>
+        </div>
+    </footer>
 </body>
 </html>

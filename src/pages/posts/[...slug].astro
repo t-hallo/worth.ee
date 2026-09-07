@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { title, date, author, description } = post.data;
+const { Content } = await post.render();
+const canonical = `https://worth.ee/posts/${post.slug}`;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+    <article class="post-content">
+        <h1>{title}</h1>
+        <div class="post-meta">
+            <time datetime={date}>{date}</time>
+            {author && <span>作者：{author}</span>}
+        </div>
+
+        <Content />
+
+        <div class="post-footer">
+            <span class="human-written">真人撰写，非 AI 创作</span>
+            <div class="post-actions">
+                <button onclick="navigator.clipboard.writeText(window.location.href).then(()=>{this.textContent='已复制';setTimeout(()=>this.textContent='复制链接',1500)})" class="action-btn">复制链接</button>
+                <button onclick="navigator.share({title: document.title, url: window.location.href})" class="action-btn">分享</button>
+            </div>
+        </div>
+    </article>
+</BaseLayout>
