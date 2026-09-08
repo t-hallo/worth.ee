@@ -51,4 +51,8 @@ footer a:hover{color:var(--hover)}
 .action-btn:hover{background:rgba(255,255,255,.8);border-color:rgba(255,255,255,.5);color:var(--hover)}
 .dark .action-btn{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)}
 .dark .action-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.25)}
+@keyframes vt-fade-out{from{opacity:1}to{opacity:0}}
+@keyframes vt-slide-in{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+::view-transition-old(root){animation:vt-fade-out .25s ease both}
+::view-transition-new(root){animation:vt-slide-in .35s ease .1s both}
 @media(max-width:640px){body{padding:0 28px 32px}footer{font-size:13px;flex-direction:row;align-items:center;gap:8px;margin-top:32px}.footer-links{gap:12px}.post-link{flex-direction:row;align-items:baseline;padding:8px 0}header{padding:12px 0}.header-links a{font-size:13px;padding:4px 0}.theme-toggle svg{width:13px;height:13px}.intro p{font-size:14px;text-align:left}.intro p:first-child{margin-top:32px}.post-title{font-size:14px;max-width:170px}}

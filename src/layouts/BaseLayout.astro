@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
 const { title = "Worth", description = "Worth", canonical } = Astro.props;
 const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
 ---
@@ -20,6 +21,7 @@ const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
     <meta property="og:url" content={pageUrl} />
     <meta property="og:image" content="https://worth.ee/og-image.svg" />
     <link rel="stylesheet" href="/styles/global.css" />
+    <ViewTransitions />
     <script is:inline>
         // 主题初始化 + 切换
         (function() {
