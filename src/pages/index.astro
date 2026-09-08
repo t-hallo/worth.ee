@@ -10,7 +10,7 @@ const about = `花园里边明晃晃的，红的红，绿的绿，新鲜漂亮�
 ---
 
 <BaseLayout title="Worth">
-    <section class="intro">
+    <section class="intro" data-author="萧红著">
         {about.trim().split('\n\n').map((paragraph) => (
             <p>{paragraph.trim()}</p>
         ))}
