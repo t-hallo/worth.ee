@@ -10,11 +10,29 @@ const about = `花园里边明晃晃的，红的红，绿的绿，新鲜漂亮�
 ---
 
 <BaseLayout title="Worth">
-    <section class="intro" data-author="萧红著" onclick="this.classList.toggle('show')">
+    <section class="intro" data-author="萧红著" id="intro" tabindex="0" role="button" aria-label="显示作者">
         {about.trim().split('\n\n').map((paragraph) => (
             <p>{paragraph.trim()}</p>
         ))}
     </section>
+    <script is:inline>
+        (function(){
+            var el=document.getElementById('intro');
+            if(!el)return;
+            var t=null;
+            function toggle(){
+                if(el.classList.contains('show')){
+                    el.classList.remove('show');
+                    clearTimeout(t);
+                }else{
+                    el.classList.add('show');
+                    t=setTimeout(function(){el.classList.remove('show')},3000);
+                }
+            }
+            el.addEventListener('click',toggle);
+            el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')toggle()});
+        })();
+    </script>
 
     <ul class="post-list">
         {posts.map(post => {

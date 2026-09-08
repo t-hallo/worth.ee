@@ -21,8 +21,7 @@ header a{color:inherit;text-decoration:none}
 .intro{margin-bottom:40px;position:relative}
 .intro::after{content:attr(data-author);position:absolute;right:0;bottom:0;font-size:11px;color:var(--text-muted);opacity:0;transition:opacity .3s ease;pointer-events:none}
 @media(hover:hover){.intro:hover::after{opacity:1}}
-.intro.show::after{opacity:1;animation:fadeOut .3s 3s forwards}
-@keyframes fadeOut{to{opacity:0}}
+.intro.show::after{opacity:1}
 .intro p{font-family:DM Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,sans-serif;font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:16px}
 .intro p:last-child{margin-bottom:0}
 .post-content .attr{font-size:12px;color:var(--text-muted);margin-top:2px;margin-bottom:0;font-weight:400}
