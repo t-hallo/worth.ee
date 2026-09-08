@@ -12,6 +12,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { title, date, author, description } = post.data;
+const fmtDate = date.split('-').slice(1).join(' ') + ', ' + date.split('-')[0];
 const { Content } = await post.render();
 const canonical = `https://worth.ee/posts/${post.slug}`;
 ---
@@ -20,7 +21,7 @@ const canonical = `https://worth.ee/posts/${post.slug}`;
     <article class="post-content">
         <h1>{title}</h1>
         <div class="post-meta">
-            <time datetime={date}>{date}</time>
+            <time datetime={date}>{fmtDate}</time>
             {author && <span>作者：{author}</span>}
         </div>
 
