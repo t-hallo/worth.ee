@@ -28,24 +28,11 @@ const canonical = `https://worth.ee/posts/${post.slug}`;
         <Content />
 
         <div class="post-actions">
-            <button class="action-btn" id="copy-link">复制链接</button>
             <button class="action-btn" id="share-btn">分享</button>
             <script is:inline>
-                document.getElementById('copy-link').addEventListener('click', function() {
-                    var orig = this.textContent;
-                    navigator.clipboard.writeText(window.location.href).then(() => {
-                        this.textContent = '✓ 已复制';
-                        setTimeout(() => this.textContent = orig, 1500);
-                    });
-                });
                 document.getElementById('share-btn').addEventListener('click', function() {
                     if (navigator.share) {
                         navigator.share({title: document.title, url: window.location.href});
-                    } else {
-                        var orig = this.textContent;
-                        navigator.clipboard.writeText(window.location.href);
-                        this.textContent = '✓ 已复制';
-                        setTimeout(() => this.textContent = orig, 1500);
                     }
                 });
             </script>
