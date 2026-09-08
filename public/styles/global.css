@@ -40,10 +40,11 @@ footer{max-width:620px;width:100%;margin:48px auto 0;display:flex;justify-conten
 footer a{color:var(--text-tertiary);text-decoration:none;transition:color .2s ease}
 footer a:hover{color:var(--hover)}
 .footer-links{display:flex;gap:16px;align-items:center}
-.post-footer{border-top:1px solid var(--border);margin-top:40px;padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.human-written{font-size:12px;color:var(--text-muted);font-style:italic}
-.post-actions{display:flex;gap:12px}
-.action-btn{background:rgba(255,255,255,.08);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15);color:var(--text-tertiary);font-size:12px;padding:6px 14px;border-radius:12px;cursor:pointer;transition:all .2s ease;font-family:inherit}
-.action-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:var(--hover)}
-.dark .action-btn{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}.dark .action-btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25)}
+.human-written{font-size:11px;color:var(--text-tertiary)}
+.post-actions{display:flex;gap:8px;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)}
+.action-btn{display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--border);color:var(--text-tertiary);font-size:12px;padding:8px 14px;border-radius:8px;cursor:pointer;transition:all .2s ease;font-family:inherit}
+.action-btn:hover{border-color:var(--hover);color:var(--hover)}
+.action-btn .action-icon{width:14px;height:14px;flex-shrink:0}
+.action-btn.copied{border-color:#34c759;color:#34c759}
+.dark .action-btn.copied{border-color:#30d158;color:#30d158}
 @media(max-width:640px){body{padding:0 28px 32px}footer{font-size:13px;flex-direction:row;align-items:center;gap:8px;margin-top:32px}.footer-links{gap:12px}.post-link{flex-direction:row;align-items:baseline;padding:8px 0}header{padding:12px 0}.header-links a{font-size:13px;padding:4px 0}.theme-toggle svg{width:13px;height:13px}.intro p{font-size:14px;text-align:left}.intro p:first-child{margin-top:32px}.post-title{font-size:14px;max-width:170px}}
