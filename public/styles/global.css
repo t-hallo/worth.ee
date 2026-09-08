@@ -28,8 +28,7 @@ header a{color:inherit;text-decoration:none}
 .post-item{border-bottom:1px solid var(--border)}
 .post-list:hover .post-link{color:var(--text-muted)}
 .post-list:hover .post-link:hover{color:var(--hover)}
-.post-list:hover .post-date{color:var(--text-muted)}
-.post-list:hover .post-link:hover .post-date{color:#555}
+.post-list:hover .post-link:hover .post-date{color:var(--hover)}
 .post-list:hover .post-title{color:var(--text-muted)}
 .post-list:hover .post-link:hover .post-title{color:var(--hover)}
 .post-link{display:flex;align-items:baseline;padding:10px 0;text-decoration:none;color:inherit}
