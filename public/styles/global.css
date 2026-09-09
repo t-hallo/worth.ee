@@ -43,7 +43,7 @@ header a{color:inherit;text-decoration:none}
 .post-content p{font-size:.9375rem;line-height:1.7;color:var(--text-secondary);margin:0 0 .875rem;letter-spacing:.01em}
 .post-content a{text-decoration:underline;text-underline-offset:2px}
 .post-meta{display:flex;gap:1rem;font-size:.75rem;color:var(--text-tertiary);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);align-items:center}
-.share-btn{background:none;border:none;color:inherit;cursor:pointer;padding:0;font-family:inherit;font-size:inherit;margin-left:auto;transition:color .2s ease}
+.share-btn{background:none;border:none;color:inherit;cursor:pointer;padding:0;font-family:inherit;font-size:inherit;margin-left:auto;transition:color .2s ease;-webkit-appearance:none;appearance:none;outline:none;border-radius:0;box-shadow:none}
 .share-btn:hover{color:var(--hover)}
 footer{max-width:620px;width:100%;margin:48px auto 0;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text-tertiary);flex-wrap:wrap}
 footer a{color:var(--text-tertiary);text-decoration:none;transition:color .2s ease}
@@ -59,4 +59,4 @@ footer a:hover{color:var(--hover)}
 @keyframes vt-slide-in{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 ::view-transition-old(root){animation:vt-fade-out .25s ease both}
 ::view-transition-new(root){animation:vt-slide-in .35s ease .1s both}
-@media(max-width:640px){body{padding:0 28px 32px}footer{font-size:13px;flex-direction:row;align-items:center;gap:8px;margin-top:32px}.footer-links{gap:12px}.post-link{flex-direction:row;align-items:baseline;padding:8px 0}header{padding:12px 0}.header-links a{font-size:13px;padding:4px 0}.theme-toggle svg{width:13px;height:13px}.intro p{font-size:14px;text-align:left}.intro p:first-child{margin-top:32px}.post-title{font-size:14px;max-width:170px}.post-meta{flex-wrap:nowrap;gap:.5rem}.post-meta .share-btn{margin-left:auto}}
+@media(max-width:640px){body{padding:0 28px 32px}footer{font-size:13px;flex-direction:row;align-items:center;gap:8px;margin-top:32px}.footer-links{gap:12px}.post-link{flex-direction:row;align-items:baseline;padding:8px 0}header{padding:12px 0}.header-links a{font-size:13px;padding:4px 0}.theme-toggle svg{width:13px;height:13px}.intro p{font-size:14px;text-align:left}.intro p:first-child{margin-top:32px}.post-title{font-size:14px;max-width:170px}.post-meta{flex-wrap:nowrap;gap:.25rem 1rem}.post-meta .share-btn{margin-left:auto;-webkit-tap-highlight-color:transparent}}
