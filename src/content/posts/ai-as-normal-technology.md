@@ -1,6 +1,6 @@
 ---
 title: 'AI 作为普通技术：为什么我们不应该害怕'
-date: '2026-08-28'
+date: 2026-08-28
 author: 'Arvind Narayanan, Sayash Kapoor'
 description: '将 AI 视为普通并不是要低估它的影响——即使是电力和互联网这样的变革性通用技术，在我们看来也是"普通"的。'
 ---

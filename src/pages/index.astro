@@ -36,7 +36,8 @@ const about = `花园里边明晃晃的，红的红，绿的绿，新鲜漂亮�
 
     <ul class="post-list">
         {posts.map(post => {
-            const fmtDate = post.data.date.split('-').slice(1).join(' ') + ', ' + post.data.date.split('-')[0];
+            const d = post.data.date;
+            const fmtDate = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
             return (
             <li class="post-item">
                 <a href={`/posts/${post.slug}`} class="post-link">
