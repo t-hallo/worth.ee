@@ -17,7 +17,7 @@ const { Content } = await post.render();
 const canonical = `https://worth.ee/posts/${post.slug}`;
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={title} description={description} canonical={canonical} articlePage={true}>
     <article class="post-content">
         <h1>{title}</h1>
         <div class="post-meta">
