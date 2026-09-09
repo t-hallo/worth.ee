@@ -28,7 +28,7 @@ const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
             var sun = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
             var moon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
             
-            function applyTheme() {
+            window.applyTheme = function() {
                 var t = localStorage.getItem('theme');
                 var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 if (t === 'dark' || (!t && d)) {
@@ -38,13 +38,9 @@ const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
                     document.documentElement.classList.remove('dark');
                     document.documentElement.style.colorScheme = 'light';
                 }
-                updateIcon();
-            }
-            
-            function updateIcon() {
                 var icon = document.getElementById('theme-icon');
                 if (icon) icon.innerHTML = document.documentElement.classList.contains('dark') ? moon : sun;
-            }
+            };
             
             document.addEventListener('click', function(e) {
                 if (e.target.closest('#theme-toggle')) {
@@ -52,12 +48,15 @@ const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
                     document.documentElement.classList.toggle('dark');
                     document.documentElement.style.colorScheme = newIsDark ? 'dark' : 'light';
                     localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
-                    updateIcon();
+                    window.applyTheme();
                 }
             });
             
-            applyTheme();
+            window.applyTheme();
         })();
+        document.addEventListener('astro:page-load', function() {
+            if (window.applyTheme) window.applyTheme();
+        });
     </script>
     <script is:inline>
         document.addEventListener('astro:before-swap', function(){
@@ -87,16 +86,22 @@ const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
                 autoHideTimer = setTimeout(hideHeader, 1500);
             }
             if (isArticle) {
-                setTimeout(hideHeader, 800);
+                setTimeout(hideHeader, 2000);
+            } else {
+                setTimeout(hideHeader, 1500);
             }
             document.addEventListener('mousemove', function(e) {
                 if (isArticle && isHidden && e.clientY < 60) {
                     showHeader();
                     scheduleAutoHide();
                 }
+                if (!isArticle && isHidden && e.clientY < 60) {
+                    showHeader();
+                    scheduleAutoHide();
+                }
             });
             header.addEventListener('mouseenter', function() {
-                if (autoHideTimer) clearTimeout(autoHideTimer);
+                if (isArticle && autoHideTimer) clearTimeout(autoHideTimer);
             });
             header.addEventListener('mouseleave', function() {
                 if (!isArticle) return;
