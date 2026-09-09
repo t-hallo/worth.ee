@@ -16,3 +16,5 @@ Disallow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://worth.ee/sitemap-index.xml
