@@ -50,11 +50,6 @@ footer a{color:var(--text-tertiary);text-decoration:none;transition:color .2s ea
 footer a:hover{color:var(--hover)}
 .footer-links{display:flex;gap:16px;align-items:center}
 .human-written{font-size:11px;color:var(--text-tertiary);font-style:normal}
-.post-actions{display:flex;gap:8px;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)}
-.action-btn{display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.3);color:var(--text-tertiary);font-size:12px;padding:8px 18px;border-radius:12px;cursor:pointer;transition:all .2s ease;font-family:inherit}
-.action-btn:hover{background:rgba(255,255,255,.8);border-color:rgba(255,255,255,.5);color:var(--hover)}
-.dark .action-btn{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)}
-.dark .action-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.25)}
 @keyframes vt-fade-out{from{opacity:1}to{opacity:0}}
 @keyframes vt-slide-in{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 ::view-transition-old(root){animation:vt-fade-out .25s ease both}
