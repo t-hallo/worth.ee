@@ -23,14 +23,7 @@ const canonical = `https://worth.ee/posts/${post.slug}`;
         <div class="post-meta">
             <time datetime={date}>{fmtDate}</time>
             {author && <span>作者：{author}</span>}
-            <button class="share-btn" id="share-btn" aria-label="分享文章">分享</button>
-            <script is:inline>
-                document.getElementById('share-btn').addEventListener('click', function() {
-                    if (navigator.share) {
-                        navigator.share({title: document.title, url: window.location.href});
-                    }
-                });
-            </script>
+            <button class="share-btn" aria-label="分享文章">分享</button>
         </div>
 
         <Content />
