@@ -50,6 +50,14 @@ footer a{color:var(--text-tertiary);text-decoration:none;transition:color .2s ea
 footer a:hover{color:var(--hover)}
 .footer-links{display:flex;gap:16px;align-items:center}
 .human-written{font-size:11px;color:var(--text-tertiary);font-style:normal}
+.back-to-top{position:fixed;bottom:32px;right:32px;height:32px;padding:0 14px 0 16px;border-radius:16px;border:1px solid rgba(127,127,127,.18);background:rgba(255,255,255,.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--text-primary);cursor:pointer;display:flex;align-items:center;gap:6px;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .25s ease,transform .25s ease,visibility .25s ease,background .2s ease,border-color .2s ease;z-index:99;box-shadow:0 2px 12px rgba(0,0,0,.06);font-family:inherit;font-size:12px;font-weight:500;letter-spacing:.01em}
+.back-to-top.is-visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{background:rgba(255,255,255,.95);border-color:rgba(127,127,127,.3)}
+.back-to-top svg{width:12px;height:12px;transition:transform .2s ease}
+.back-to-top:hover svg{transform:translateY(-1px)}
+.dark .back-to-top{background:rgba(20,20,20,.75);box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.dark .back-to-top:hover{background:rgba(30,30,30,.95)}
+@media(max-width:640px){.back-to-top{bottom:calc(24px + 60px)}}
 @keyframes vt-fade-out{from{opacity:1}to{opacity:0}}
 @keyframes vt-slide-in{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 ::view-transition-old(root){animation:vt-fade-out .25s ease both}

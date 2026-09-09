@@ -141,10 +141,41 @@ const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
     </div>
 
     <footer>
-        <div class="footer-links">
-            <a href="/privacy">Privacy</a>
-        </div>
-        <span class="human-written">© 线条 · Not By AI</span>
+    <div class="footer-links">
+        <a href="/privacy">Privacy</a>
+    </div>
+    <span class="human-written">© 线条 · Not By AI</span>
     </footer>
+    <button class="back-to-top" aria-label="返回顶部">
+        <span>顶部</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+    <script is:inline>
+    (function(){
+        var btn = document.querySelector('.back-to-top');
+        if (!btn) return;
+        var isVisible = false;
+        function checkScroll() {
+            var shouldShow = window.scrollY > 300;
+            if (shouldShow !== isVisible) {
+                isVisible = shouldShow;
+                btn.classList.toggle('is-visible', shouldShow);
+            }
+        }
+        window.addEventListener('scroll', checkScroll, { passive: true });
+        btn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        checkScroll();
+        document.addEventListener('astro:page-load', function(){
+            btn = document.querySelector('.back-to-top');
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            checkScroll();
+        });
+    })();
+    </script>
 </body>
 </html>
