@@ -146,35 +146,5 @@ const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
         </div>
         <span class="human-written">© 线条 · Not By AI</span>
     </footer>
-    <script is:inline>
-        (function(){
-            function setupShareButton(btn){
-                btn.addEventListener('click', function(){
-                    if (navigator.share) {
-                        navigator.share({title: document.title, url: window.location.href}).catch(function(){ /* 用户取消，不报错 */ });
-                        return;
-                    }
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(window.location.href).then(function(){
-                            var orig = btn.textContent;
-                            btn.textContent = '已复制';
-                            setTimeout(function(){ btn.textContent = orig; }, 1500);
-                        }).catch(function(){ /* 剪贴板被拒绝 */ });
-                        return;
-                    }
-                    // 最后手段：选中链接文本
-                    var range = document.createRange();
-                    range.selectNodeContents(btn);
-                    var sel = window.getSelection();
-                    sel.removeAllRanges();
-                    sel.addRange(range);
-                });
-            }
-            var buttons = document.querySelectorAll('.share-btn');
-            for (var i = 0; i < buttons.length; i++) {
-                setupShareButton(buttons[i]);
-            }
-        })();
-    </script>
 </body>
 </html>

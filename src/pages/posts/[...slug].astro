@@ -23,7 +23,34 @@ const canonical = `https://worth.ee/posts/${post.slug}`;
         <div class="post-meta">
             <time datetime={date}>{fmtDate}</time>
             {author && <span>作者：{author}</span>}
-            <button class="share-btn" aria-label="分享文章">分享</button>
+            <button type="button" class="share-btn" aria-label="分享文章">分享</button>
+            <script is:inline>
+                (function(){
+                    var btn = document.currentScript.previousElementSibling;
+                    function onShare(){
+                        if (navigator.share) {
+                            navigator.share({title: document.title, url: window.location.href}).catch(function(){});
+                            return;
+                        }
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            navigator.clipboard.writeText(window.location.href).then(function(){
+                                var orig = btn.textContent;
+                                btn.textContent = '已复制';
+                                setTimeout(function(){ btn.textContent = orig; }, 1500);
+                            }).catch(function(){});
+                            return;
+                        }
+                    }
+                    btn.addEventListener('click', onShare);
+                    document.addEventListener('astro:page-load', function(){
+                        var newBtn = document.querySelector('.share-btn');
+                        if (newBtn && newBtn !== btn) {
+                            btn = newBtn;
+                            btn.addEventListener('click', onShare);
+                        }
+                    });
+                })();
+            </script>
         </div>
 
         <Content />
