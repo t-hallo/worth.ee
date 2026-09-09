@@ -23,12 +23,9 @@ const canonical = `https://worth.ee/posts/${post.slug}`;
         <div class="post-meta">
             <time datetime={date}>{fmtDate}</time>
             {author && <span>作者：{author}</span>}
-        </div>
-
-        <Content />
-
-        <div class="post-actions">
-            <button class="action-btn" id="share-btn">分享</button>
+            <button class="share-btn" id="share-btn" aria-label="分享文章">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            </button>
             <script is:inline>
                 document.getElementById('share-btn').addEventListener('click', function() {
                     if (navigator.share) {
@@ -37,5 +34,7 @@ const canonical = `https://worth.ee/posts/${post.slug}`;
                 });
             </script>
         </div>
+
+        <Content />
     </article>
 </BaseLayout>
