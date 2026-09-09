@@ -15,9 +15,11 @@ const { title, date, author, description } = post.data;
 const fmtDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 const { Content } = await post.render();
 const canonical = `https://worth.ee/posts/${post.slug}`;
+const posts = await getCollection('posts');
+const currentSlug = post.slug;
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical} articlePage={true}>
+<BaseLayout title={title} description={description} canonical={canonical} articlePage={true} posts={posts} currentSlug={currentSlug}>
     <article class="post-content">
         <h1>{title}</h1>
         <div class="post-meta">
