@@ -144,7 +144,28 @@ const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
     <div class="footer-links">
         <a href="/privacy">Privacy</a>
     </div>
-    <span class="human-written">© 线条 · Not By AI</span>
+    <button class="human-written" aria-label="关于 Not By AI">© 线条 · Not By AI</button>
+    <div class="human-written-panel" role="tooltip">
+      <strong>Not By AI</strong>
+      本网站所有内容均由人类撰写、编辑、校对。我们不使用 AI 生成、润色或翻译文章。除非特别注明，作品均为线条原创。
+    </div>
+    <script is:inline>
+      (function(){
+        var btn = document.querySelector('.human-written');
+        var panel = document.querySelector('.human-written-panel');
+        if (!btn || !panel) return;
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          panel.classList.toggle('is-visible');
+        });
+        document.addEventListener('click', function() {
+          panel.classList.remove('is-visible');
+        });
+        panel.addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
+      })();
+    </script>
     </footer>
     <button class="back-to-top" aria-label="返回顶部">
         <span>顶部</span>
