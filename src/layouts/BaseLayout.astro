@@ -154,10 +154,19 @@ const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
         var btn = document.querySelector('.human-written');
         var panel = document.querySelector('.human-written-panel');
         if (!btn || !panel) return;
-        btn.addEventListener('click', function(e) {
+        var isTouch = false;
+        function togglePanel(e) {
+          if (e.type === 'touchstart') {
+            isTouch = true;
+          }
+          if (e.type === 'click' && isTouch) {
+            return;
+          }
           e.stopPropagation();
           panel.classList.toggle('is-visible');
-        });
+        }
+        btn.addEventListener('touchstart', togglePanel, { passive: true });
+        btn.addEventListener('click', togglePanel);
         document.addEventListener('click', function() {
           panel.classList.remove('is-visible');
         });
