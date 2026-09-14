@@ -4,7 +4,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:DM Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,sans-serif;background-color:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;line-height:1.7;display:flex;flex-direction:column;min-height:100vh;padding:0 24px 48px}
-@media(prefers-reduced-motion:no-preference){::view-transition-group(*){animation-duration:.15s;animation-timing-function:cubic-bezier(.4,0,.2,1)}::view-transition-old(root),::view-transition-new(root){animation-duration:.15s;animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+@media(prefers-reduced-motion:reduce){
+::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none!important}}
 .container{max-width:620px;width:100%;margin:0 auto;flex:1}
 header{margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;padding:16px 0;background:rgba(255,255,255,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:transform .3s ease,opacity .3s ease}
 header.is-hidden{transform:translateY(-100%);opacity:0}
@@ -199,5 +200,5 @@ footer a:hover{color:var(--hover)}
 @keyframes vt-fade-out{from{opacity:1;filter:blur(0)}to{opacity:0;filter:blur(4px)}}
 @keyframes vt-fade-in{from{opacity:0;filter:blur(4px)}to{opacity:1;filter:blur(0)}}
 ::view-transition-old(root){animation:vt-fade-out .3s ease both}
-::view-transition-new(root){animation:vt-fade-in .4s ease .1s both}
+::view-transition-new(root){animation:vt-fade-in .3s ease both}
 @media(max-width:640px){body{padding:0 28px 32px}footer{font-size:13px;flex-direction:row;align-items:center;gap:8px;margin-top:32px}.footer-links{gap:12px}.post-link{flex-direction:row;align-items:baseline;padding:8px 0}header{padding:12px 0}.header-links a{font-size:13px;padding:4px 0}.theme-toggle svg{width:13px;height:13px}.intro p{font-size:14px;text-align:left}.intro p:first-child{margin-top:32px}.post-title{font-size:14px;max-width:170px}.post-meta{flex-wrap:nowrap;gap:.25rem 1rem}.post-meta .share-btn{margin-left:auto;-webkit-tap-highlight-color:transparent}}

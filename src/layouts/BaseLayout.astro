@@ -24,6 +24,18 @@ const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
     <style set:html={cssContent} />
     <ClientRouter fallback="none" />
     <script is:inline>
+    (function(){
+        if(!('startViewTransition' in document)){
+            var main=document.querySelector('main');
+            if(!main)return;
+            function fadeOut(){main.style.opacity='0';main.style.transition='opacity .25s ease'}
+            function fadeIn(){main.style.opacity='1';main.style.transition='opacity .25s ease'}
+            document.addEventListener('astro:before-navigation',fadeOut);
+            document.addEventListener('astro:after-swap',function(){requestAnimationFrame(fadeIn)});
+        }
+    })();
+    </script>
+    <script is:inline>
         // 主题初始化 + 切换
         (function() {
             var sun = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
