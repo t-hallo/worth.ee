@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+
+const about = `花园里边明晃晃的，红的红，绿的绿，新鲜漂亮。
+
+花开了，就像睡醒了似的。鸟飞了，就像在天上逛似的。虫子叫了，就像虫子在说话似的。一切都活了，都有无限的本领，要做什么，就做什么。要怎么样，就怎么样，都是自由的。倭瓜愿意爬上房就爬上房，愿意爬上树就爬上树。黄瓜愿意开一个黄花，就开一个黄花，愿意结一个黄瓜，就结一个黄瓜。若都不愿意，就是一个黄瓜也不结，一朵花也不开，也沒有人问他。玉米愿意长多高就长多高，他若愿意长到天上去，也沒有人管他。`;
+---
+
+<BaseLayout title="Worth">
+    <section class="intro" data-author="萧红著" id="intro" tabindex="0" role="button" aria-label="显示作者">
+        {about.trim().split('\n\n').map((paragraph) => (
+            <p>{paragraph.trim()}</p>
+        ))}
+    </section>
+    <script is:inline>
+        (function(){
+            if (window.__introInit) return;
+            window.__introInit = true;
+            var el=document.getElementById('intro');
+            if(!el)return;
+            var t=null;
+            function toggle(){
+                if(el.classList.contains('show')){
+                    el.classList.remove('show');
+                    clearTimeout(t);
+                }else{
+                    el.classList.add('show');
+                    t=setTimeout(function(){el.classList.remove('show')},3000);
+                }
+            }
+            el.addEventListener('click',toggle);
+            el.addEventListener('touchstart',function(e){e.preventDefault();toggle()},{passive:false});
+            el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')toggle()});
+        })();
+    </script>
+
+    <ul class="post-list">
+        {posts.map(post => {
+            const d = post.data.date;
+            const fmtDate = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+            return (
+            <li class="post-item">
+                <a href={`/posts/${post.id}/`} class="post-link">
+                    <span class="post-date">{fmtDate}</span>
+                    <span class="post-title">{post.data.title}</span>
+                </a>
+            </li>
+            );
+        })}
+    </ul>
+</BaseLayout>

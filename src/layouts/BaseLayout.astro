@@ -1,0 +1,224 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import cssContent from '../../public/styles/global.css?raw';
+const { title = "Worth", description = "Worth", canonical, articlePage = false } = Astro.props;
+const pageUrl = canonical || `https://worth.ee${Astro.url.pathname}`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="color-scheme" content="dark light">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Worth" />
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content="https://worth.ee/og-image.png" />
+    <style set:html={cssContent} />
+    <ClientRouter fallback="none" />
+    <script is:inline>
+        // 主题初始化 + 切换
+        (function() {
+            var sun = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+            var moon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+
+            window.applyTheme = function() {
+                var t = localStorage.getItem('theme');
+                var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && d)) {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.style.colorScheme = 'dark';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.style.colorScheme = 'light';
+                }
+                var icon = document.getElementById('theme-icon');
+                if (icon) icon.innerHTML = document.documentElement.classList.contains('dark') ? moon : sun;
+            };
+
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('#theme-toggle')) {
+                    var newIsDark = !document.documentElement.classList.contains('dark');
+                    document.documentElement.classList.toggle('dark');
+                    document.documentElement.style.colorScheme = newIsDark ? 'dark' : 'light';
+                    localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+                    window.applyTheme();
+                }
+            });
+
+            window.applyTheme();
+        })();
+        document.addEventListener('astro:page-load', function() {
+            if (window.applyTheme) window.applyTheme();
+        });
+    </script>
+    <script is:inline>
+        document.addEventListener('astro:before-swap', function(){
+            var header = document.getElementById('site-header');
+            if (header) {
+                header.removeAttribute('data-header-init');
+            }
+        });
+        function initHeader() {
+            var header = document.getElementById('site-header');
+            if (!header || header.dataset.headerInit === 'true') return;
+            header.dataset.headerInit = 'true';
+            var isArticle = header.classList.contains('article-page');
+            var isHidden = false;
+
+            function hideHeader() {
+                header.classList.add('is-hidden');
+                isHidden = true;
+            }
+            function showHeader() {
+                header.classList.remove('is-hidden');
+                isHidden = false;
+            }
+            var autoHideTimer = null;
+            function scheduleAutoHide() {
+                if (autoHideTimer) clearTimeout(autoHideTimer);
+                autoHideTimer = setTimeout(hideHeader, 1500);
+            }
+            if (isArticle) {
+                setTimeout(hideHeader, 2000);
+            } else {
+                setTimeout(hideHeader, 1500);
+            }
+            document.addEventListener('mousemove', function(e) {
+                if (isArticle && isHidden && e.clientY < 60) {
+                    showHeader();
+                    scheduleAutoHide();
+                }
+                if (!isArticle && isHidden && e.clientY < 60) {
+                    showHeader();
+                    scheduleAutoHide();
+                }
+            });
+            header.addEventListener('mouseenter', function() {
+                if (isArticle && autoHideTimer) clearTimeout(autoHideTimer);
+            });
+            header.addEventListener('mouseleave', function() {
+                if (!isArticle) return;
+                scheduleAutoHide();
+            });
+            document.addEventListener('scroll', function() {
+                if (isArticle && window.scrollY > 100 && !isHidden) {
+                    hideHeader();
+                }
+            });
+        }
+        document.addEventListener('astro:page-load', initHeader);
+        if (document.readyState === 'complete') {
+            initHeader();
+        } else {
+            document.addEventListener('DOMContentLoaded', initHeader);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+<header id="site-header" class={articlePage ? 'article-page' : ''}>
+            <a href="/">
+                <h1><span class="logo-dots"><span></span><span></span><span></span></span></h1>
+            </a>
+            <div class="header-links">
+                <a href="mailto:a@worth.ee">mail</a>
+                <button id="theme-toggle" aria-label="切换主题" class="theme-toggle">
+                    <svg id="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <slot />
+        </main>
+    </div>
+
+    <footer>
+    <div class="footer-links">
+        <a href="/privacy">Privacy</a>
+    </div>
+    <button class="human-written" aria-label="关于 Not By AI">© 线条 · Not By AI</button>
+    <div class="human-written-panel" role="tooltip">
+      <strong>Not By AI</strong>
+      本网站所有内容均由人类撰写、编辑、校对。我们不使用 AI 生成、润色或翻译文章。除非特别注明，作品均为线条原创。
+    </div>
+    <script is:inline>
+      (function(){
+        if (window.__footerInit) return;
+        window.__footerInit = true;
+        var isTouch = false;
+        function getElements() {
+          return {
+            btn: document.querySelector('.human-written'),
+            panel: document.querySelector('.human-written-panel')
+          };
+        }
+        function togglePanel(e) {
+          var el = getElements();
+          if (!el.btn || !el.panel) return;
+          if (e.type === 'touchstart') {
+            isTouch = true;
+            setTimeout(function(){ isTouch = false; }, 500);
+          }
+          if (e.type === 'click' && isTouch) {
+            return;
+          }
+          e.stopPropagation();
+          el.panel.classList.toggle('is-visible');
+        }
+        document.addEventListener('touchstart', function(e) {
+          if (e.target.closest('.human-written')) togglePanel(e);
+        }, { passive: true });
+        document.addEventListener('click', function(e) {
+          var el = getElements();
+          if (!el.btn || !el.panel) return;
+          if (e.target.closest('.human-written')) {
+            togglePanel(e);
+          } else if (!e.target.closest('.human-written-panel')) {
+            el.panel.classList.remove('is-visible');
+          }
+        });
+      })();
+    </script>
+    </footer>
+    <button class="back-to-top" aria-label="返回顶部">
+        <span>顶部</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+    <script is:inline>
+    (function(){
+        var btn = document.querySelector('.back-to-top');
+        if (!btn) return;
+        var isVisible = false;
+        function checkScroll() {
+            var shouldShow = window.scrollY > 300;
+            if (shouldShow !== isVisible) {
+                isVisible = shouldShow;
+                btn.classList.toggle('is-visible', shouldShow);
+            }
+        }
+        window.addEventListener('scroll', checkScroll, { passive: true });
+        btn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        checkScroll();
+        document.addEventListener('astro:page-load', function(){
+            btn = document.querySelector('.back-to-top');
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            checkScroll();
+        });
+    })();
+    </script>
+</body>
+</html>
