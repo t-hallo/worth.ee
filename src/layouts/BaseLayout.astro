@@ -158,49 +158,7 @@ const isNotHome = Astro.url.pathname !== '/';
     <div class="footer-links">
         <a href="/privacy">Privacy</a>
     </div>
-    <button class="human-written" aria-label="关于 Not By AI">© 线条 · Not By AI</button>
-    <div class="human-written-panel" role="tooltip">
-      <strong>Not By AI</strong>
-      本网站所有内容均由人类撰写、编辑、校对。我们不使用 AI 生成、润色或翻译文章。除非特别注明，作品均为线条原创。
-    </div>
-    <script is:inline>
-      (function(){
-        if (window.__footerInit) return;
-        window.__footerInit = true;
-        var isTouch = false;
-        function getElements() {
-          return {
-            btn: document.querySelector('.human-written'),
-            panel: document.querySelector('.human-written-panel')
-          };
-        }
-        function togglePanel(e) {
-          var el = getElements();
-          if (!el.btn || !el.panel) return;
-          if (e.type === 'touchstart') {
-            isTouch = true;
-            setTimeout(function(){ isTouch = false; }, 500);
-          }
-          if (e.type === 'click' && isTouch) {
-            return;
-          }
-          e.stopPropagation();
-          el.panel.classList.toggle('is-visible');
-        }
-        document.addEventListener('touchstart', function(e) {
-          if (e.target.closest('.human-written')) togglePanel(e);
-        }, { passive: true });
-        document.addEventListener('click', function(e) {
-          var el = getElements();
-          if (!el.btn || !el.panel) return;
-          if (e.target.closest('.human-written')) {
-            togglePanel(e);
-          } else if (!e.target.closest('.human-written-panel')) {
-            el.panel.classList.remove('is-visible');
-          }
-        });
-      })();
-    </script>
+
     </footer>
     <button class="back-to-top" aria-label="返回顶部">
         <span>顶部</span>
