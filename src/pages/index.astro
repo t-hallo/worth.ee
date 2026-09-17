@@ -15,27 +15,7 @@ const about = `花园里边明晃晃的，红的红，绿的绿，新鲜漂亮�
             <p>{paragraph.trim()}</p>
         ))}
     </section>
-    <script is:inline>
-        (function(){
-            if (window.__introInit) return;
-            window.__introInit = true;
-            var el=document.getElementById('intro');
-            if(!el)return;
-            var t=null;
-            function toggle(){
-                if(el.classList.contains('show')){
-                    el.classList.remove('show');
-                    clearTimeout(t);
-                }else{
-                    el.classList.add('show');
-                    t=setTimeout(function(){el.classList.remove('show')},3000);
-                }
-            }
-            el.addEventListener('click',toggle);
-            el.addEventListener('touchstart',function(e){e.preventDefault();toggle()},{passive:false});
-            el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')toggle()});
-        })();
-    </script>
+    <script src="/js/intro.js" is:inline></script>
 
     <ul class="post-list">
         {posts.map(post => {

@@ -14,6 +14,9 @@ const isNotHome = Astro.url.pathname !== '/';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/DM-Sans-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/DM-Sans-500.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/DM-Sans-700.woff2" as="font" type="font/woff2" crossorigin>
     <meta name="description" content={description} />
     <meta name="author" content="Worth" />
     <link rel="canonical" href={pageUrl} />
@@ -24,12 +27,7 @@ const isNotHome = Astro.url.pathname !== '/';
     <meta property="og:image" content="https://worth.ee/og-image.png" />
     <style set:html={cssContent} />
     <ClientRouter fallback="none" />
-    <script is:inline>
-        window.applyTheme=function(){var t=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme:dark)').matches,e=document.documentElement;if(t==='dark'||(!t&&d)){e.classList.add('dark');e.style.colorScheme='dark'}else{e.classList.remove('dark');e.style.colorScheme='light'}var i=document.getElementById('modal-theme-icon');if(i)i.innerHTML=e.classList.contains('dark')?'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">':'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">'};
-        window.toggleTheme=function(){var d=!document.documentElement.classList.contains('dark');document.documentElement.classList.toggle('dark');document.documentElement.style.colorScheme=d?'dark':'light';localStorage.setItem('theme',d?'dark':'light');window.applyTheme()};
-        window.applyTheme();
-        document.addEventListener('astro:page-load',function(){window.applyTheme()});
-    </script>
+    <script src="/js/theme.js" is:inline></script>
 </head>
 <body>
     <div class="container">
@@ -69,43 +67,6 @@ const isNotHome = Astro.url.pathname !== '/';
         <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
     </button>
 
-    <script is:inline>
-        (function(){
-            var b=document.querySelector('.back-to-top'),v=false;
-            window.addEventListener('scroll',function(){var s=window.scrollY>300;if(s!==v){v=s;b.classList.toggle('is-visible',s)}},{passive:true});
-            b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
-            document.addEventListener('astro:page-load',function(){b=document.querySelector('.back-to-top');b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})});
-        })();
-        document.addEventListener('astro:page-load',function(){
-            var t=document.getElementById('modal-theme-toggle');
-            if(t)t.addEventListener('click',function(){
-                var i=document.getElementById('modal-theme-icon');
-                if(i){
-                    i.style.transition='transform .4s cubic-bezier(.4,0,.2,1), opacity .4s ease';
-                    i.style.transform='rotate(180deg)';
-                    i.style.opacity='0';
-                    setTimeout(function(){
-                        if(window.toggleTheme)window.toggleTheme();
-                        i.style.transition='none';
-                        i.style.transform='rotate(0deg)';
-                        i.style.opacity='1';
-                        setTimeout(function(){
-                            i.style.transition='transform .4s cubic-bezier(.4,0,.2,1)';
-                            i.style.transform='rotate(180deg)';
-                            setTimeout(function(){i.style.transform='rotate(0deg)'},400);
-                        },20);
-                    },200);
-                } else {
-                    if(window.toggleTheme)window.toggleTheme();
-                }
-            })
-        });
-        (function(){if(window.__c)return;window.__c=true;document.addEventListener('click',function(e){
-            var t=document.querySelector('.info-trigger'),s=document.querySelector('.info-sheet');
-            if(!t||!s)return;
-            if(e.target.closest('.info-trigger'))s.classList.toggle('is-visible');
-            else if(!e.target.closest('.info-sheet'))s.classList.remove('is-visible')
-        })})();
-    </script>
+    <script src="/js/ui.js" is:inline></script>
 </body>
 </html>
